@@ -7,5 +7,6 @@
 #define max(x, y) (x > y? x:y)
 
 #define CHECK_COLLISION_HASH
+// #define USE_SAMPLE_DATA
 
 #endif // DEFINITION_H
