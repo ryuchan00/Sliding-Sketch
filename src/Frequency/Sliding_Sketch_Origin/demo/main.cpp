@@ -28,7 +28,8 @@ void Read_File(int argc, char* argv[]){
     int cycle = 50000;
     int hash_number = 10;
     double mymemory  = stoi(argv[1]);
-    int input_num_max = 5000000;
+    // int input_num_max = 5000000;
+    int input_num_max = 500000;
     int field_num = 2;
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
@@ -42,18 +43,24 @@ void Read_File(int argc, char* argv[]){
     double CM_ae = 0,  CU_ae = 0,  CO_ae = 0;
     double CM_re = 0,  CU_re = 0,  CO_re = 0;
 
-    // FILE* file = fopen("../../../../data/formatted00.dat","rb");
+#ifdef USE_SAMPLE_DATA
+    FILE* file = fopen("../../../../data/formatted00.dat","rb");
+#else
     FILE* file = fopen("../../../../data/sx-stackoverflow.txt","rb");
+#endif  // USE_SAMPLE_DATA
     Data packet;
 
     std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
 
-    //while(fread(packet.str, DATA_LEN, 1, file) > 0)
-    for (int i = 0; i < input.size(); i++)
-    {
+#ifdef USE_SAMPLE_DATA
+    while(fread(packet.str, DATA_LEN, 1, file) > 0) {
+#else
+    for (int i = 0; i < input.size(); i++) {
         std::memcpy(packet.str, &input[i][0], DATA_LEN);
+#endif  // USE_SAMPLE_DATA
+
         // for(int j = 0; j < DATA_LEN; ++j) {
         //   std::cout << std::hex << static_cast<int>(packet.str[j]) << " ";
         // }
