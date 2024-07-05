@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string.h>
 #include <algorithm>
+#include <map>
+#include <vector>
 #include "definition.h"
 #include "hash_class.h"
 
@@ -44,7 +46,12 @@ public:
         }
     };
     Unit* counter;
-    
+#ifdef CHECK_COLLISION_HASH
+    typedef std::array<const unsigned char, 4> in_str;
+    std::vector<std::map<unsigned int, std::vector<in_str>>> collision_hash_;
+    int collision_count_;
+    int collision_element_access_count_;
+#endif // CHECK_COLLISION_HASH
 
     Recent_Counter(int c, int l, int _row_length, int _hash_number, int _field_num);
     ~Recent_Counter();

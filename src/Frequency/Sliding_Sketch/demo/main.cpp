@@ -3,10 +3,11 @@
 #include <iomanip>
 #include <time.h>
 #include <unordered_map>
+#include <cstring>
+#include <vector>
 #include "../clock.h"
 #include "../data.h"
-
-
+#include "../../../csv.h"
 
 using namespace std;
 unordered_map<Data, int, My_Hash> mp;
@@ -30,8 +31,9 @@ void Read_File(int argc, char* argv[]){
     // int hash_number = 2;    // テスト用
     // double mymemory  = 1;
     // double mymemory  = 1;
-    double mymemory  = 2;
-    int input_num_max = 500000;
+    double mymemory  = stoi(argv[1]);
+    // int input_num_max = 500000;
+    int input_num_max = 5000000;
     // int input_num_max = 80;
     // バケットの数(today or yesterday)
     int field_num = 2;
@@ -53,14 +55,18 @@ void Read_File(int argc, char* argv[]){
 
     FILE* file = fopen("../../../../data/formatted00.dat","rb");
     // FILE* file = fopen("../../../../data/web_page2.dat","rb");
+    // FILE* file = fopen("../../../../data/sx-stackoverflow.txt","rb");
     Data packet;
 
+    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
 
-    while(fread(packet.str, DATA_LEN, 1, file) > 0)
+    // while(fread(packet.str, DATA_LEN, 1, file) > 0)
+    for (int i = 0; i < input.size(); i++)
     {
+        std::memcpy(packet.str, &input[i][0], DATA_LEN);
         // cout << "INPUT: " << packet.str << endl;
 
         if(num > input_num_max){

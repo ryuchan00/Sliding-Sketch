@@ -1,14 +1,16 @@
-main:bloom.o clock.o data.o hash_class.o main.o
-	g++ -o main bloom.o clock.o data.o hash_class.o main.o
-bloom.o:../bloom.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h
+main:bloom.o clock.o data.o hash_class.o csv.o main.o
+	g++ -o main bloom.o clock.o data.o hash_class.o csv.o main.o
+bloom.o:../bloom.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h ../../../csv.h
 	g++ -c ../bloom.cpp
-clock.o:../clock.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h
+clock.o:../clock.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h ../../../csv.h
 	g++ -c ../clock.cpp
-data.o:../data.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h
+data.o:../data.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h ../../../csv.h
 	g++ -c ../data.cpp
-hash_class.o:../hash_class.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h
+hash_class.o:../hash_class.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h ../../../csv.h
 	g++ -c ../hash_class.cpp
-main.o:main.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h
+csv.o:../../../csv.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h ../../../csv.h
+	g++ -c ../../../csv.cpp
+main.o:main.cpp ../bloom.h ../clock.h ../data.h ../definition.h ../hash_class.h ../../../csv.h
 	g++ -c main.cpp
 clean:
 	rm -f *.o main

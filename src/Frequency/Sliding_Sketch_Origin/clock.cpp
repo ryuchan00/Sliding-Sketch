@@ -26,6 +26,10 @@ Recent_Counter::Recent_Counter(int c, int l, int _row_length, int _hash_numberbe
         counter[i].field_num = _field_num;
         memset(counter[i].count, 0, _field_num * sizeof(int));
     }
+
+#ifdef CHECK_COLLISION_HASH
+    collision_hash_.resize(hash_number);
+#endif // CHECK_COLLISION_HASH
 }
 
 Recent_Counter::~Recent_Counter(){
@@ -38,6 +42,25 @@ void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long
     for(int i = 0;i < hash_number;++i){
         position = Hash(str, i, length) % row_length + i * row_length;
         counter[position].count[(cycle_num + (position < clock_pos)) % field_num] += 1;
+
+#ifdef CHECK_COLLISION_HASH
+        if (collision_hash_.at(i).find(position) != collision_hash_.at(i).end()) {
+            in_str in = {str[0],str[1],str[2],str[3]};
+            auto result = std::find(collision_hash_.at(i).at(position).begin(), collision_hash_.at(i).at(position).end(), in);
+            if (result == collision_hash_.at(i).at(position).end()) {
+                // std::cout << "not found" << std::endl;
+                collision_hash_.at(i).at(position).push_back(in);
+                collision_count_++;
+            } else {
+                // std::cout << "found" << std::endl;
+            }
+        } else {
+            std::vector <in_str> vec = {{str[0],str[1],str[2],str[3]}};
+            collision_hash_.at(i).insert(std::make_pair(position, vec));
+        }
+
+#endif // CHECK_COLLISION_HASH
+
     }
 }
 
@@ -64,9 +87,19 @@ void Recent_Counter::CU_Init(const unsigned char* str, int length, unsigned long
 
 unsigned int Recent_Counter::Query(const unsigned char* str, int length){
     unsigned int min_num = 0x7fffffff;
+    unsigned int position;
 
-    for(int i = 0;i < hash_number;++i)
+    for(int i = 0;i < hash_number;++i) {
+#ifdef CHECK_COLLISION_HASH
+    position = Hash(str, i, length) % row_length + i * row_length;
+
+    if(collision_hash_.at(i).at(position).size() > 1) {
+        collision_element_access_count_++;
+    }
+#endif // CHECK_COLLISION_HASH
         min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].Total(), min_num);
+        
+    }
 
     return min_num;
 }
