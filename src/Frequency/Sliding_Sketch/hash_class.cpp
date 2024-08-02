@@ -1,7 +1,10 @@
 #include "hash_class.h"
 
+#define SEED 0
+
 unsigned int Hash(const unsigned char* str, int num, int length){
-    switch(num)
+    int i = (num + SEED) % 13;
+    switch(i)
     {
     case 0: return BOB1(str, length);
     case 1: return BOB4(str, length);

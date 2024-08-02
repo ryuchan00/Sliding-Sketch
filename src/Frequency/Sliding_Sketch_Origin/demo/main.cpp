@@ -29,7 +29,7 @@ void Read_File(int argc, char* argv[]){
     int hash_number = 10;
     double mymemory  = stoi(argv[1]);
     // int input_num_max = 5000000;
-    int input_num_max = 500000;
+    int input_num_max = 5000000;
     int field_num = 2;
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
@@ -51,6 +51,8 @@ void Read_File(int argc, char* argv[]){
     Data packet;
 
     std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
+    // tsvに合わせたやる必要がある？
+    //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/webdocs.dat");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
 

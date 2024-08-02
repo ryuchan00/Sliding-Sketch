@@ -27,7 +27,7 @@ void Read_File(int argc, char* argv[]){
     int cycle = 50000;
     // int cycle = 8;
     // 所持しているハッシュ関数
-    int hash_number = 10;
+    int hash_number = 13;
     // int hash_number = 2;    // テスト用
     // double mymemory  = 1;
     // double mymemory  = 1;
