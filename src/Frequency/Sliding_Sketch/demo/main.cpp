@@ -27,7 +27,8 @@ void Read_File(int argc, char* argv[]){
     int cycle = 50000;
     // int cycle = 8;
     // 所持しているハッシュ関数
-    int hash_number = 13;
+    //int hash_number = 13;
+    int hash_number = 10;
     // int hash_number = 2;    // テスト用
     // double mymemory  = 1;
     // double mymemory  = 1;
@@ -52,6 +53,7 @@ void Read_File(int argc, char* argv[]){
     double CM_dif = 0, CU_dif = 0, CO_dif = 0;
     double CM_ae = 0,  CU_ae = 0,  CO_ae = 0;
     double CM_re = 0,  CU_re = 0,  CO_re = 0;
+    int under_estimation_count = 0;
 
     FILE* file = fopen("../../../../data/formatted00.dat","rb");
     // FILE* file = fopen("../../../../data/web_page2.dat","rb");
@@ -106,6 +108,9 @@ void Read_File(int argc, char* argv[]){
 
         int CM_sub = CM_guess - real;
         double diff = (double)CM_guess - real;
+        if (CM_guess < real) {
+            under_estimation_count++;
+        }
         // int CU_sub = CU_guess - real;
         // int CO_sub = CO_guess - real;
 
@@ -138,6 +143,9 @@ void Read_File(int argc, char* argv[]){
 
         
     }
+
+    cout << "Memory: " << mymemory << endl;
+    cout << "under_estimation_count: " << under_estimation_count << endl;
 
 }
 
