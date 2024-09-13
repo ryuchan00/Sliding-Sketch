@@ -26,7 +26,8 @@ unordered_map<Data, int, My_Hash> mp;
 //argv[9]:field
 
 void Read_File(int argc, char* argv[]){
-    int cycle = 50000;
+    //int cycle = 50000;
+    int cycle = 5;
     int hash_number = 10;
     double mymemory  = stoi(argv[1]);
     // double mymemory  = 3;
@@ -52,7 +53,8 @@ void Read_File(int argc, char* argv[]){
 #endif  // USE_SAMPLE_DATA
     Data packet;
 
-    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
+    //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
+    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
     // tsvに合わせたやる必要がある？
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/webdocs.dat");
 

@@ -3,9 +3,12 @@
 #include <iomanip>
 #include <time.h>
 #include <unordered_map>
+#include <vector>
+#include <cstring>
+#include <string.h>
 #include "../clock.h"
 #include "../data.h"
-
+#include "../../../csv.h"
 
 
 using namespace std;
@@ -23,7 +26,7 @@ unordered_map<Data, int, My_Hash> mp;
 //argv[9]:field
 
 void Read_File(int argc, char* argv[]){
-    int cycle = 50000;
+    int cycle = 5;
     // int cycle = 50;
     // 所持しているハッシュ関数
     int hash_number = 10;
@@ -55,13 +58,16 @@ void Read_File(int argc, char* argv[]){
     FILE* file = fopen("../../../../data/formatted00.dat","rb");
     Data packet;
 
+    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
 
-    while(fread(packet.str, DATA_LEN, 1, file) > 0)
+    // while(fread(packet.str, DATA_LEN, 1, file) > 0)
+    for (int i = 0; i < input.size(); i++)
     {
         // cout << "INPUT: " << packet.str << endl;
+        std::memcpy(packet.str, &input[i][0], DATA_LEN);
 
         if(num > input_num_max){
             break;
