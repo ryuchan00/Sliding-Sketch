@@ -59,7 +59,7 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
   unsigned int position;
   int frequency_confirmations[row_length] = {0};
 
-  for (; last_time < num; ++last_time) {
+  // for (; last_time < num; ++last_time) {
     if (last_time % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
         frequency_confirmations[row_length] = {0};
@@ -72,17 +72,21 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
           }
           position = Hash(a, i, length) % row_length;
           frequency_confirmations[position] = max(frequency_confirmations[position], value);
+          // if (frequency_confirmations[position] > 0) {
+          //   std::cout << "frequency_confirmations[" << position << "] = " << frequency_confirmations[position] << std::endl;
+          // }
         }
 
         for (int j = 0; j < row_length; j++) {
           if (frequency_confirmations[j] > 0) {
             counter[j + i * row_length].count[0] = counter[j + i * row_length].count[0] + frequency_confirmations[j];
+            // std::cout << "counter[" << j + i * row_length << "].count[0] = " << counter[j + i * row_length].count[0] << std::endl;
           }
         }
       }
       element_count_2_.clear();
     }
-  }
+  // }
 }
 
 // todo: DATA_LEN=8に依存しているコードなので，DETA_LENに合わせてできるようにする
