@@ -53,13 +53,14 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
   } else {
     element_count_2_.insert(std::make_pair(GetTargetKey(str), 1));
   }
+  std::cout << num << ":" << element_count_2_.at(GetTargetKey(str)) << std::endl;
 }
 
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
   unsigned int position;
   int frequency_confirmations[row_length] = {0};
 
-  // for (; last_time < num; ++last_time) {
+  for (; last_time < num; ++last_time) {
     if (last_time % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
         frequency_confirmations[row_length] = {0};
@@ -86,12 +87,13 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
       }
       element_count_2_.clear();
     }
-  // }
+  }
 }
 
 // todo: DATA_LEN=8に依存しているコードなので，DETA_LENに合わせてできるようにする
 packet_str Recent_Counter::GetTargetKey(const unsigned char* str) {
   return {str[0], str[1], str[2], str[3], str[4], str[5], str[6], str[7]};
+  //return {str[0], str[1], str[2], str[3]};
 }
 
 void Recent_Counter::Clock_Go(unsigned long long int num) {

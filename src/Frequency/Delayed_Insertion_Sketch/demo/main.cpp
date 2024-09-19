@@ -26,15 +26,15 @@ unordered_map<Data, int, My_Hash> mp;
 //argv[9]:field
 
 void Read_File(int argc, char* argv[]){
-    int cycle = 5;
-    // int cycle = 50;
+    //int cycle = 5;
+     int cycle = 50000;
     // 所持しているハッシュ関数
     int hash_number = 10;
     // int hash_number = 2;    // テスト用
     // double mymemory  = 1;
     // double mymemory  = 1;
-    double mymemory  = 2;
-    int input_num_max = 10;
+    double mymemory  = stoi(argv[1]);;
+    int input_num_max = 50000;
     // int input_num_max = 500000;
     // int input_num_max = 500;
     // バケットの数(today or yesterday)
@@ -42,7 +42,7 @@ void Read_File(int argc, char* argv[]){
     // 衝突の関係する
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
     
-    int element_count_step = 5000;
+    int element_count_step = 50000 * 3;
     // int element_count_step = 500;
     // int row_length = 4;    // テスト用
     // hash_number * row_lengthはスケッチ全体のサイズ

@@ -27,12 +27,12 @@ unordered_map<Data, int, My_Hash> mp;
 
 void Read_File(int argc, char* argv[]){
     //int cycle = 50000;
-    int cycle = 5;
+    int cycle = 50000;
     int hash_number = 10;
     double mymemory  = stoi(argv[1]);
     // double mymemory  = 3;
     // int input_num_max = 5000000;
-    int input_num_max = 500000;
+    int input_num_max = 50000;
     int field_num = 2;
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
