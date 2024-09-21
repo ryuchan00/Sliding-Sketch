@@ -140,6 +140,7 @@ int Recent_Counter::CO_Query(const unsigned char *str, int length){
 }
 
 void Recent_Counter::Clock_Go(unsigned long long int num){
+    
     for(;last_time < num;++last_time){
         counter[clock_pos].count[(cycle_num + 1) % field_num] = 0;
         clock_pos = (clock_pos + 1) % len;

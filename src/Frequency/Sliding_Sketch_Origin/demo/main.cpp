@@ -35,6 +35,7 @@ void Read_File(int argc, char* argv[]){
     int input_num_max = 50000;
     int field_num = 2;
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
+    // int row_length = 1;
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     Recent_Counter CU_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     Recent_Counter CO_Counter(2*cycle/3, hash_number * row_length, row_length, hash_number, field_num);
@@ -54,7 +55,8 @@ void Read_File(int argc, char* argv[]){
     Data packet;
 
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
-    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
+    // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
+    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
     // tsvに合わせたやる必要がある？
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/webdocs.dat");
 
@@ -117,7 +119,8 @@ void Read_File(int argc, char* argv[]){
         // CO_ae += abs(CO_sub);
 
         if(num%cycle ==0){
-        cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        cout << CM_guess << "," << real << endl;
         // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
         // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
         }

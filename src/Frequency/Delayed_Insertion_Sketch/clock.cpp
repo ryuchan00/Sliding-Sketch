@@ -37,14 +37,18 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
   int correction_count = 0;
 
   correction_count = element_count_2_.at(GetTargetKey(str));
+  // std::cout << "correction_count: " << correction_count << std::endl;
 
   for (int i = 0; i < hash_number; i++) {
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[0] + correction_count, min_num);
+    // std::cout << "min_num: " << min_num << std::endl;
   }
   return min_num;
 }
 
 void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int length, unsigned long long int num) {
+  // std::cout << "step:" << step << std::endl;
+
   Initilize_ElementCount(length, num * step);
   Clock_Go(num * step);
 
@@ -53,15 +57,17 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
   } else {
     element_count_2_.insert(std::make_pair(GetTargetKey(str), 1));
   }
-  std::cout << num << ":" << element_count_2_.at(GetTargetKey(str)) << std::endl;
+  //std::cout << num << ":" << element_count_2_.at(GetTargetKey(str)) << std::endl;
 }
 
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
   unsigned int position;
   int frequency_confirmations[row_length] = {0};
+  // std::cout << "num:" << num << std::endl;
 
   for (; last_time < num; ++last_time) {
     if (last_time % element_count_step_ == 0) {
+    // if (num % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
         frequency_confirmations[row_length] = {0};
 
@@ -72,6 +78,10 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
             a[i] = key[i];
           }
           position = Hash(a, i, length) % row_length;
+          // std::cout << position << std::endl;
+          if (frequency_confirmations[position] > 0) {
+            // std::cout << "Collision detected" << std::endl;
+          }
           frequency_confirmations[position] = max(frequency_confirmations[position], value);
           // if (frequency_confirmations[position] > 0) {
           //   std::cout << "frequency_confirmations[" << position << "] = " << frequency_confirmations[position] << std::endl;

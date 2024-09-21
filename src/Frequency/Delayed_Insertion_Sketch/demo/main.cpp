@@ -41,12 +41,13 @@ void Read_File(int argc, char* argv[]){
     int field_num = 2;
     // 衝突の関係する
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
+    // int row_length = 1;
     
-    int element_count_step = 50000 * 3;
+    int element_count_step = 5000;
     // int element_count_step = 500;
     // int row_length = 4;    // テスト用
     // hash_number * row_lengthはスケッチ全体のサイズ
-    // 
+    // std::cout << "row_length:" << row_length << std::endl;
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num, element_count_step);
 
     Data *dat = new Data[cycle + 1];
@@ -59,7 +60,8 @@ void Read_File(int argc, char* argv[]){
     FILE* file = fopen("../../../../data/formatted00.dat","rb");
     Data packet;
 
-    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
+    // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
+    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
@@ -104,9 +106,10 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        if(num%cycle ==0){
-        cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        }
+        // if(num%cycle ==0){
+        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        cout << input[i][0] << ":" << CM_guess << "," << real << endl;
+        // }
 
         // 終わり50個前から出力して、over estimationかunder estimationかを確認する
         // todo: clock_pos1かclock_pos2のどちらの管理区域か出力する必要がありそう
