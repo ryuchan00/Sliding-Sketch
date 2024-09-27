@@ -43,6 +43,7 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[0] + correction_count, min_num);
     // std::cout << "min_num: " << min_num << std::endl;
   }
+  std::cout << "counter:" << counter[0].count[0] << "+ correction_count: " << correction_count << std::endl;
   return min_num;
 }
 
@@ -50,7 +51,7 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
   // std::cout << "step:" << step << std::endl;
 
   Initilize_ElementCount(length, num * step);
-  Clock_Go(num * step);
+  // Clock_Go(num * step);
 
   if (element_count_2_.count(GetTargetKey(str)) != 0) {
     element_count_2_.at(GetTargetKey(str))++;
@@ -63,7 +64,7 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
   unsigned int position;
   int frequency_confirmations[row_length] = {0};
-  // std::cout << "num:" << num << std::endl;
+  std::cout << "num:" << num << std::endl;
 
   for (; last_time < num; ++last_time) {
     if (last_time % element_count_step_ == 0) {
@@ -102,8 +103,8 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 
 // todo: DATA_LEN=8に依存しているコードなので，DETA_LENに合わせてできるようにする
 packet_str Recent_Counter::GetTargetKey(const unsigned char* str) {
-  return {str[0], str[1], str[2], str[3], str[4], str[5], str[6], str[7]};
-  //return {str[0], str[1], str[2], str[3]};
+  //return {str[0], str[1], str[2], str[3], str[4], str[5], str[6], str[7]};
+  return {str[0], str[1], str[2], str[3]};
 }
 
 void Recent_Counter::Clock_Go(unsigned long long int num) {

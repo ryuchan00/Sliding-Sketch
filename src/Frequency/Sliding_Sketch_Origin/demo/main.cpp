@@ -56,9 +56,11 @@ void Read_File(int argc, char* argv[]){
 
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
-    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
+    // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
     // tsvに合わせたやる必要がある？
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/webdocs.dat");
+    // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
+    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial4.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
 
@@ -118,12 +120,12 @@ void Read_File(int argc, char* argv[]){
         // CU_ae += abs(CU_sub);
         // CO_ae += abs(CO_sub);
 
-        if(num%cycle ==0){
+        // if(num%cycle ==0){
         // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        cout << CM_guess << "," << real << endl;
+        cout << packet.str << input[i][0] << ":" << CM_guess << "," << real << endl;
         // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
         // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
-        }
+        // }
 
 
         num++;

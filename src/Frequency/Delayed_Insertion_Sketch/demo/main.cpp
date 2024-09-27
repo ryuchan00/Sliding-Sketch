@@ -61,7 +61,9 @@ void Read_File(int argc, char* argv[]){
     Data packet;
 
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
-    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
+    // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
+    //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
+    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial4.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
@@ -121,7 +123,7 @@ void Read_File(int argc, char* argv[]){
         num++;
 
     }
-
+    cout << "DATA_LEN:" << DATA_LEN << endl;
 }
 
 int main(int argc, char* argv[]){
