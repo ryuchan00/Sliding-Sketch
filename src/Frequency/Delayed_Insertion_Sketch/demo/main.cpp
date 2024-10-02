@@ -33,7 +33,8 @@ void Read_File(int argc, char* argv[]){
     // int hash_number = 2;    // テスト用
     // double mymemory  = 1;
     // double mymemory  = 1;
-    double mymemory  = stoi(argv[1]);;
+    //double mymemory  = stoi(argv[2]);
+    double mymemory  = std::atof(argv[2]);
     int input_num_max = 50000;
     // int input_num_max = 500000;
     // int input_num_max = 500;
@@ -63,7 +64,7 @@ void Read_File(int argc, char* argv[]){
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
-    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial4.txt");
+    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
@@ -108,10 +109,10 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        // if(num%cycle ==0){
-        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        cout << input[i][0] << ":" << CM_guess << "," << real << endl;
-        // }
+        if(num%cycle ==0){
+        cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // cout << input[i][0] << ":" << CM_guess << "," << real << endl;
+        }
 
         // 終わり50個前から出力して、over estimationかunder estimationかを確認する
         // todo: clock_pos1かclock_pos2のどちらの管理区域か出力する必要がありそう
@@ -123,7 +124,14 @@ void Read_File(int argc, char* argv[]){
         num++;
 
     }
+
+    // パラメータダンプ
     cout << "DATA_LEN:" << DATA_LEN << endl;
+    cout << "Cycle:" << cycle << endl;
+    cout << "Memory:" << mymemory << endl;
+    cout << "Hash:" << hash_number << endl;
+    cout << "Row Length:" << row_length << endl;
+    cout << "element_count_step:" << element_count_step << endl;
 }
 
 int main(int argc, char* argv[]){

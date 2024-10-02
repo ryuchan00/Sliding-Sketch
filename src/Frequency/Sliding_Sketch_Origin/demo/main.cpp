@@ -29,7 +29,8 @@ void Read_File(int argc, char* argv[]){
     //int cycle = 50000;
     int cycle = 50000;
     int hash_number = 10;
-    double mymemory  = stoi(argv[1]);
+    //double mymemory  = stoi(argv[2]);
+    double mymemory  = std::atof(argv[2]);
     // double mymemory  = 3;
     // int input_num_max = 5000000;
     int input_num_max = 50000;
@@ -60,7 +61,8 @@ void Read_File(int argc, char* argv[]){
     // tsvに合わせたやる必要がある？
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/webdocs.dat");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
-    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial4.txt");
+    // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial4.txt");
+    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
 
@@ -120,12 +122,12 @@ void Read_File(int argc, char* argv[]){
         // CU_ae += abs(CU_sub);
         // CO_ae += abs(CO_sub);
 
-        // if(num%cycle ==0){
-        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        cout << packet.str << input[i][0] << ":" << CM_guess << "," << real << endl;
+        if(num%cycle ==0){
+        cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // cout << input[i][0] << ":" << CM_guess << "," << real << endl;
         // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
         // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
-        // }
+        }
 
 
         num++;
@@ -138,6 +140,12 @@ void Read_File(int argc, char* argv[]){
     cout << "collision access count" << CM_Counter.collision_element_access_count_ << endl;
 #endif // CHECK_COLLISION_HASH
 
+    // パラメータダンプ
+    cout << "DATA_LEN:" << DATA_LEN << endl;
+    cout << "Cycle:" << cycle << endl;
+    cout << "Memory:" << mymemory << endl;
+    cout << "Hash:" << hash_number << endl;
+    cout << "Row Length:" << row_length << endl;
 }
 
 int main(int argc, char* argv[]){

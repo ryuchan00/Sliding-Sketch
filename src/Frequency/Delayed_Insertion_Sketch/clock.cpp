@@ -43,7 +43,7 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[0] + correction_count, min_num);
     // std::cout << "min_num: " << min_num << std::endl;
   }
-  std::cout << "counter:" << counter[0].count[0] << "+ correction_count: " << correction_count << std::endl;
+  // std::cout << "counter:" << counter[0].count[0] << "+ correction_count: " << correction_count << std::endl;
   return min_num;
 }
 
@@ -64,7 +64,7 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
   unsigned int position;
   int frequency_confirmations[row_length] = {0};
-  std::cout << "num:" << num << std::endl;
+  // std::cout << "num:" << num << std::endl;
 
   for (; last_time < num; ++last_time) {
     if (last_time % element_count_step_ == 0) {
