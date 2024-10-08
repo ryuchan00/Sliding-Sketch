@@ -35,9 +35,11 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
   
   // 補正カウント
   int correction_count = 0;
-
+#ifdef NOT_USE_CORRECTION_SKETCH
+#else
   correction_count = element_count_2_.at(GetTargetKey(str));
   // std::cout << "correction_count: " << correction_count << std::endl;
+#endif  // NOT_USE_CORRECTION_SKETCH
 
   for (int i = 0; i < hash_number; i++) {
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[0] + correction_count, min_num);
@@ -53,12 +55,21 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
   Initilize_ElementCount(length, num * step);
   // Clock_Go(num * step);
 
+#ifdef NOT_USE_CORRECTION_SKETCH
+  unsigned int position;
+
+  for(int i = 0;i < hash_number;++i){
+    position = Hash(str, i, length) % row_length + i * row_length;
+    counter[position].count[0] += 1;
+  }
+#else
   if (element_count_2_.count(GetTargetKey(str)) != 0) {
     element_count_2_.at(GetTargetKey(str))++;
   } else {
     element_count_2_.insert(std::make_pair(GetTargetKey(str), 1));
   }
   //std::cout << num << ":" << element_count_2_.at(GetTargetKey(str)) << std::endl;
+#endif  // NOT_USE_CORRECTION_SKETCH
 }
 
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
@@ -67,6 +78,9 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
   // std::cout << "num:" << num << std::endl;
 
   for (; last_time < num; ++last_time) {
+#ifdef NOT_USE_CORRECTION_SKETCH
+
+#else
     if (last_time % element_count_step_ == 0) {
     // if (num % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
@@ -98,6 +112,7 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
       }
       element_count_2_.clear();
     }
+#endif  // NOT_USE_CORRECTION_SKETCH
   }
 }
 
