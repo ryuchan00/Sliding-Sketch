@@ -71,3 +71,13 @@ function initialize_element_count # elemnt_countの値をcountへ代入する
     array element_count # 再initialize
   end if
 end function
+
+#出ていくコード
+#按分する方法
+必要なメソッド
+時間が来たらnew->oldへ移す
+これはSSと同様
+それとは別に補正スケッチからCMSに移すときに按分が必要である
+
+まずは按分の計算式を作る
+
