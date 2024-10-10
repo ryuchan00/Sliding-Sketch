@@ -80,4 +80,44 @@ end function
 それとは別に補正スケッチからCMSに移すときに按分が必要である
 
 まずは按分の計算式を作る
+按分は
+経過時間/1日の長さ
+で按分できる．
+これはコードだとどの変数に当たるのか
+経過時間はnum % cycle
+1日はcycle
+これで求まる．つまり
+num % cycle / cycle
+これで1日の経過時間が出る
 
+すでにnew->oldに移っているものとする
+
+ゼロに更新する部分と...(これはそのままでよさそう)
+for(;last_time < num;++last_time){
+  counter[clock_pos].count[(cycle_num + 1) % field_num] = 0;
+  clock_pos = (clock_pos + 1) % len;
+  if(clock_pos == 0){
+    cycle_num = (cycle_num + 1) % field_num;
+  }
+}
+
+correction_countを按分する部分...
+for (int j = 0; j < row_length; j++) {
+  if (frequency_confirmations[j] > 0) {
+    counter[j + i * row_length].count[0] = counter[j + i * row_length].count[0] + frequency_confirmations[j];
+  }
+}
+
+最後に更新された時刻を残しておく必要がある
+5000の時間で更新する，スピードが違うカウンターがあるので
+何周期というは
+5000を過ぎていればB_oldにすべてを書き込めばいい
+もうちょっと整理しよう
+
+
+最後にリセットされたタイミングが分かれば...
+b_new,b_old,last_reset_timeの三つの構造体が必要そう
+Clock_Goのタイミングでlast_reset_timeをリセットする
+
+num % cycleが5000以下だったら按分
+そうでなかったらすべてoldへ

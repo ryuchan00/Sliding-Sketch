@@ -5,6 +5,6 @@
 #define PACKET_NUM 0x7fffffff
 #define min(x, y) (x < y? x:y)
 #define max(x, y) (x > y? x:y)
-#define NOT_USE_CORRECTION_SKETCH
+// #define NOT_USE_CORRECTION_SKETCH
 
 #endif // DEFINITION_H
