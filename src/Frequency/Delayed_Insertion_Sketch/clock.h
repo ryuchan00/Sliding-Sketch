@@ -27,6 +27,7 @@ public :
     int hash_number;
     int field_num;
     unsigned long long int last_time;
+    unsigned long long int last_time2;
 
     // c = 500000
     // l = スケッチの全体のサイズ
@@ -43,6 +44,7 @@ public :
         clock_pos = 0;
         clock_pos2 = 0;
         last_time = 0;
+        last_time2 = 0;
         cycle_num = 0;
         cycle_num2 = 0;
         prev_clock_pos2 = 0;
@@ -56,6 +58,7 @@ public:
     struct Unit{
         int* count;
         int field_num;
+        int recently_reset_time;
         int Total(){
             int ret = 0;
             for(int i = 0;i < field_num;++i){

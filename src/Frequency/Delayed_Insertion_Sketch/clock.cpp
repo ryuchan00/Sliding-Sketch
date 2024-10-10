@@ -53,7 +53,7 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
   // std::cout << "step:" << step << std::endl;
 
   Initilize_ElementCount(length, num * step);
-  // Clock_Go(num * step);
+  Clock_Go(num * step);
 
 #ifdef NOT_USE_CORRECTION_SKETCH
   unsigned int position;
@@ -77,11 +77,11 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
   int frequency_confirmations[row_length] = {0};
   // std::cout << "num:" << num << std::endl;
 
-  for (; last_time < num; ++last_time) {
+  for (; last_time2 < num; ++last_time2) {
 #ifdef NOT_USE_CORRECTION_SKETCH
 
 #else
-    if (last_time % element_count_step_ == 0) {
+    if (last_time2 % element_count_step_ == 0) {
     // if (num % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
         frequency_confirmations[row_length] = {0};
