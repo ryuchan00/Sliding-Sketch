@@ -42,10 +42,14 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 #endif  // NOT_USE_CORRECTION_SKETCH
 
   for (int i = 0; i < hash_number; i++) {
+#ifdef ONLY_INPUT_MODE
+    min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[0] + correction_count, min_num);
+#else
     unsigned int position = Hash(str, i, length) % row_length + i * row_length;
     int new_filed = (cycle_num + (position < clock_pos)) % field_num;
 
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[new_filed] + correction_count, min_num);
+#endif  // ONLY_INPUT_MODE
     // std::cout << "min_num: " << min_num << std::endl;
   }
   // std::cout << "counter:" << counter[0].count[0] << "+ correction_count: " << correction_count << std::endl;
@@ -111,6 +115,9 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 
         for (int j = 0; j < row_length; j++) {
           if (frequency_confirmations[j] > 0) {
+#ifdef ONLY_INPUT_MODE
+            counter[j + i * row_length].count[0] = counter[j + i * row_length].count[0] + frequency_confirmations[j];
+#else
             int new_field = (cycle_num + (position < clock_pos)) % field_num;
             int old_field = (cycle_num + (position < clock_pos) + 1) % field_num;
 
@@ -123,6 +130,7 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
               counter[j + i * row_length].count[old_field] = counter[j + i * row_length].count[old_field] + old_counter;
               counter[j + i * row_length].count[new_field] = counter[j + i * row_length].count[new_field] + new_counter;
             }
+#endif // ONLY_INPUT_MODE
 
             // std::cout << "counter[" << j + i * row_length << "].count[0] = " << counter[j + i * row_length].count[0] << std::endl;
           }

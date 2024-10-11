@@ -6,5 +6,6 @@
 #define min(x, y) (x < y? x:y)
 #define max(x, y) (x > y? x:y)
 // #define NOT_USE_CORRECTION_SKETCH
+#define ONLY_INPUT_MODE
 
 #endif // DEFINITION_H
