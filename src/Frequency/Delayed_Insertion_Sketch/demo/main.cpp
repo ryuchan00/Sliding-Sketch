@@ -35,8 +35,8 @@ void Read_File(int argc, char* argv[]){
     // double mymemory  = 1;
     //double mymemory  = stoi(argv[2]);
     double mymemory  = std::atof(argv[2]);
-    int input_num_max = 50000;
-    // int input_num_max = 500000;
+    // int input_num_max = 50000;
+    int input_num_max = 5000000;
     // int input_num_max = 500;
     // バケットの数(today or yesterday)
     int field_num = 2;

@@ -42,7 +42,10 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 #endif  // NOT_USE_CORRECTION_SKETCH
 
   for (int i = 0; i < hash_number; i++) {
-    min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[0] + correction_count, min_num);
+    unsigned int position = Hash(str, i, length) % row_length + i * row_length;
+    int new_filed = (cycle_num + (position < clock_pos)) % field_num;
+
+    min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[new_filed] + correction_count, min_num);
     // std::cout << "min_num: " << min_num << std::endl;
   }
   // std::cout << "counter:" << counter[0].count[0] << "+ correction_count: " << correction_count << std::endl;
@@ -81,6 +84,9 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 #ifdef NOT_USE_CORRECTION_SKETCH
 
 #else
+    int new_counter = 0;
+    int old_counter = 0;
+
     if (last_time2 % element_count_step_ == 0) {
     // if (num % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
@@ -105,7 +111,19 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 
         for (int j = 0; j < row_length; j++) {
           if (frequency_confirmations[j] > 0) {
-            counter[j + i * row_length].count[0] = counter[j + i * row_length].count[0] + frequency_confirmations[j];
+            int new_field = (cycle_num + (position < clock_pos)) % field_num;
+            int old_field = (cycle_num + (position < clock_pos) + 1) % field_num;
+
+            // oldとnewにfrequency_confirmations[j]を分割する
+            if (num - counter[j + i * row_length].recently_reset_time >= element_count_step_) {
+              counter[j + i * row_length].count[old_field] = counter[j + i * row_length].count[old_field] + frequency_confirmations[j];
+            } else {
+              old_counter = frequency_confirmations[j] * (num - counter[j + i * row_length].recently_reset_time) / element_count_step_;
+              new_counter = frequency_confirmations[j] - old_counter;
+              counter[j + i * row_length].count[old_field] = counter[j + i * row_length].count[old_field] + old_counter;
+              counter[j + i * row_length].count[new_field] = counter[j + i * row_length].count[new_field] + new_counter;
+            }
+
             // std::cout << "counter[" << j + i * row_length << "].count[0] = " << counter[j + i * row_length].count[0] << std::endl;
           }
         }
@@ -126,6 +144,9 @@ void Recent_Counter::Clock_Go(unsigned long long int num) {
   for (; last_time < num; ++last_time) {
     counter[clock_pos].count[(cycle_num + 1) % field_num] = 0;
     clock_pos = (clock_pos + 1) % len;
+
+    counter[clock_pos].recently_reset_time = num / step;  // 最後にリセットされた時間を記録
+
     if (clock_pos == 0) {
       cycle_num = (cycle_num + 1) % field_num;
     }
