@@ -8,5 +8,6 @@
 
 // #define CHECK_COLLISION_HASH
 // #define USE_SAMPLE_DATA
+#define HASH_COLLISION 
 
 #endif // DEFINITION_H

@@ -124,7 +124,7 @@ void Read_File(int argc, char* argv[]){
 
         if(num%cycle ==0){
         cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // cout << input[i][0] << ":" << CM_guess << "," << real << endl;
+        cout << input[i][0] << ":" << CM_guess << "," << real << endl;
         // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
         // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
         }
@@ -142,6 +142,7 @@ void Read_File(int argc, char* argv[]){
 
     // パラメータダンプ
     cout << "DATA_LEN:" << DATA_LEN << endl;
+    cout << "input_num_max:" << input_num_max << endl;
     cout << "Cycle:" << cycle << endl;
     cout << "Memory:" << mymemory << endl;
     cout << "Hash:" << hash_number << endl;
@@ -150,4 +151,8 @@ void Read_File(int argc, char* argv[]){
 
 int main(int argc, char* argv[]){
     Read_File(argc, argv);
+
+#ifdef HASH_COLLISION
+    cout << "HASH_COLLISION" << endl;
+#endif  // HASH_COLLISION
 }

@@ -7,5 +7,6 @@
 #define max(x, y) (x > y? x:y)
 // #define NOT_USE_CORRECTION_SKETCH
 #define ONLY_INPUT_MODE
+#define HASH_COLLISION
 
 #endif // DEFINITION_H

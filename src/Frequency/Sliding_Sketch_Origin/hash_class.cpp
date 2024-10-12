@@ -1,8 +1,12 @@
 #include "hash_class.h"
 
-// unsigned int Hash(const unsigned char* str, int num, int length){
-//     return 0;
-// }
+#ifdef HASH_COLLISION
+
+unsigned int Hash(const unsigned char* str, int num, int length){
+    return 0;
+}
+
+#else
 
 unsigned int Hash(const unsigned char* str, int num, int length){
     switch(num)
@@ -23,6 +27,8 @@ unsigned int Hash(const unsigned char* str, int num, int length){
     default: printf("Hash_Num Error\n"); return 0;
     }
 }
+
+#endif  // HASH_COLLISION
 
 unsigned int BKDR(const unsigned char* str, int len){
     unsigned int hash = 0;
