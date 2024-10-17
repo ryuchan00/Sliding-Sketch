@@ -126,15 +126,19 @@ void Read_File(int argc, char* argv[]){
     }
 
     // パラメータダンプ
-    cout << "DATA_LEN:" << DATA_LEN << endl;
-    cout << "input_num_max:" << input_num_max << endl;
-    cout << "Cycle:" << cycle << endl;
+    // cout << "DATA_LEN:" << DATA_LEN << endl;
+    // cout << "input_num_max:" << input_num_max << endl;
+    // cout << "Cycle:" << cycle << endl;
     cout << "Memory:" << mymemory << endl;
-    cout << "Hash:" << hash_number << endl;
-    cout << "Row Length:" << row_length << endl;
-    cout << "element_count_step:" << element_count_step << endl;
+    // cout << "Hash:" << hash_number << endl;
+    // cout << "Row Length:" << row_length << endl;
+    // cout << "element_count_step:" << element_count_step << endl;
 }
 
 int main(int argc, char* argv[]){
     Read_File(argc, argv);
+
+#ifdef HASH_COLLISION
+    cout << "HASH_COLLISION" << endl;
+#endif  // HASH_COLLISIONq
 }
