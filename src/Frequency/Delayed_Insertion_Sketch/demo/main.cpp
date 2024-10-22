@@ -109,9 +109,9 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        if(num%cycle ==0){
+        if(num%cycle ==0 || num%cycle ==cycle-1){
         cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // cout << input[i][0] << ":" << CM_guess << "," << real << endl;
+        cout << input[i][0] << ":" << CM_guess << "," << real << endl;
         }
 
         // 終わり50個前から出力して、over estimationかunder estimationかを確認する
@@ -141,4 +141,8 @@ int main(int argc, char* argv[]){
 #ifdef HASH_COLLISION
     cout << "HASH_COLLISION" << endl;
 #endif  // HASH_COLLISIONq
+
+#ifdef NOT_USE_CORRECTION_SKETCH
+    cout << "NOT_USE_CORRECTION_SKETCH" << endl;
+#endif  // NOT_USE_CORRECTION_SKETCH
 }
