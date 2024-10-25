@@ -52,7 +52,7 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 #endif  // ONLY_INPUT_MODE
     // std::cout << "min_num: " << min_num << std::endl;
   }
-  std::cout << "counter:" << counter[0].count[0] << "+ correction_count: " << correction_count << std::endl;
+  std::cout << "counter:" << counter[0].count[0] << " + correction_count: " << correction_count << std::endl;
   return min_num;
 }
 
