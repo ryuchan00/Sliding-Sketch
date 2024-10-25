@@ -36,7 +36,8 @@ void Read_File(int argc, char* argv[]){
     //double mymemory  = stoi(argv[2]);
     double mymemory  = std::atof(argv[2]);
     // int input_num_max = 50000;
-    int input_num_max = 50000;
+    //int input_num_max = 50000;
+    int input_num_max = std::atoi(argv[3]);
     // int input_num_max = 500;
     // バケットの数(today or yesterday)
     int field_num = 2;
@@ -48,7 +49,7 @@ void Read_File(int argc, char* argv[]){
     // int element_count_step = 500;
     // int row_length = 4;    // テスト用
     // hash_number * row_lengthはスケッチ全体のサイズ
-    // std::cout << "row_length:" << row_length << std::endl;
+    std::cout << "row_length:" << row_length << std::endl;
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num, element_count_step);
 
     Data *dat = new Data[cycle + 1];
@@ -109,10 +110,10 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        if(num%cycle ==0 || num%cycle ==cycle-1){
-        cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // if(num%cycle ==0 || num%cycle ==cycle-1){
+        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
         cout << input[i][0] << ":" << CM_guess << "," << real << endl;
-        }
+        // }
 
         // 終わり50個前から出力して、over estimationかunder estimationかを確認する
         // todo: clock_pos1かclock_pos2のどちらの管理区域か出力する必要がありそう

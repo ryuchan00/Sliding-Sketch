@@ -52,12 +52,12 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 #endif  // ONLY_INPUT_MODE
     // std::cout << "min_num: " << min_num << std::endl;
   }
-  // std::cout << "counter:" << counter[0].count[0] << "+ correction_count: " << correction_count << std::endl;
+  std::cout << "counter:" << counter[0].count[0] << "+ correction_count: " << correction_count << std::endl;
   return min_num;
 }
 
 void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int length, unsigned long long int num) {
-  // std::cout << "step:" << step << std::endl;
+  std::cout << "step:" << step << std::endl;
 
   Initilize_ElementCount(length, num * step);
   Clock_Go(num * step);
@@ -82,7 +82,9 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
   unsigned int position;
   int frequency_confirmations[row_length] = {0};
-  // std::cout << "num:" << num << std::endl;
+  std::cout << "num:" << num << std::endl;
+
+  std::cout << "l:" << last_time2 << std::endl;
 
   for (; last_time2 < num; ++last_time2) {
 #ifdef NOT_USE_CORRECTION_SKETCH
@@ -92,6 +94,7 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
     int old_counter = 0;
 
     if (last_time2 % element_count_step_ == 0) {
+      std::cout << row_length << std::endl;
     // if (num % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
         frequency_confirmations[row_length] = {0};
@@ -114,8 +117,10 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
         }
 
         for (int j = 0; j < row_length; j++) {
+          // std::cout << frequency_confirmations[j] << std::endl;
           if (frequency_confirmations[j] > 0) {
 #ifdef ONLY_INPUT_MODE
+            std::cout << "count up" << std::endl;
             counter[j + i * row_length].count[0] = counter[j + i * row_length].count[0] + frequency_confirmations[j];
 #else
             int new_field = (cycle_num + (position < clock_pos)) % field_num;
@@ -125,8 +130,8 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
             if (num - counter[j + i * row_length].recently_reset_time >= element_count_step_) {
               counter[j + i * row_length].count[old_field] = counter[j + i * row_length].count[old_field] + frequency_confirmations[j];
             } else {
-              old_counter = frequency_confirmations[j] * (num - counter[j + i * row_length].recently_reset_time) / element_count_step_;
-              new_counter = frequency_confirmations[j] - old_counter;
+              new_counter = frequency_confirmations[j] * (num - counter[j + i * row_length].recently_reset_time) / element_count_step_;
+              old_counter = frequency_confirmations[j] - new_counter;
               counter[j + i * row_length].count[old_field] = counter[j + i * row_length].count[old_field] + old_counter;
               counter[j + i * row_length].count[new_field] = counter[j + i * row_length].count[new_field] + new_counter;
             }
