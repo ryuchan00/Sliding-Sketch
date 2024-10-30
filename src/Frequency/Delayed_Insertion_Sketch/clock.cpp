@@ -82,9 +82,9 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
   unsigned int position;
   int frequency_confirmations[row_length] = {0};
-  std::cout << "num:" << num << std::endl;
+  // std::cout << "num:" << num << std::endl;
 
-  std::cout << "l:" << last_time2 << std::endl;
+  // std::cout << "l:" << last_time2 << std::endl;
 
   for (; last_time2 < num; ++last_time2) {
 #ifdef NOT_USE_CORRECTION_SKETCH
@@ -94,6 +94,7 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
     int old_counter = 0;
 
     if (last_time2 % element_count_step_ == 0) {
+      std::cout << "last_time2:" << last_time2 << std::endl;
       std::cout << row_length << std::endl;
     // if (num % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
@@ -150,7 +151,15 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 // todo: DATA_LEN=8に依存しているコードなので，DETA_LENに合わせてできるようにする
 packet_str Recent_Counter::GetTargetKey(const unsigned char* str) {
   //return {str[0], str[1], str[2], str[3], str[4], str[5], str[6], str[7]};
-  return {str[0], str[1], str[2], str[3]};
+  
+  using packet = std::array<unsigned char, DATA_LEN>;
+  packet result{};
+  for (std::size_t i = 0; i < DATA_LEN; ++i) {
+      result[i] = str[i];
+  }
+  packet_str p = result;
+  return result;
+  //return {str[0], str[1], str[2], str[3]};
 }
 
 void Recent_Counter::Clock_Go(unsigned long long int num) {

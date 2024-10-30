@@ -11,7 +11,8 @@
 #include "definition.h"
 #include "hash_class.h"
 
-typedef std::array<const unsigned char, DATA_LEN> packet_str;
+//typedef std::array<const unsigned char, DATA_LEN> packet_str;
+using packet_str = std::array<unsigned char, DATA_LEN>;
 
 class Recent_Sketch{
 public :
