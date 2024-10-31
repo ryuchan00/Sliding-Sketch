@@ -111,7 +111,7 @@ void Read_File(int argc, char* argv[]){
         CM_ae += abs(CM_sub);
 
         // if(num%cycle ==0 || num%cycle ==cycle-1){
-        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
         cout << input[i][0] << ":" << CM_guess << "," << real << endl;
         // }
 

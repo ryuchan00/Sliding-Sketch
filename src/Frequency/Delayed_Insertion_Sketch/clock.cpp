@@ -52,12 +52,12 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 #endif  // ONLY_INPUT_MODE
     // std::cout << "min_num: " << min_num << std::endl;
   }
-  std::cout << "counter:" << counter[0].count[0] << " + correction_count: " << correction_count << std::endl;
+  // std::cout << "counter:" << counter[0].count[0] << " + correction_count: " << correction_count << std::endl;
   return min_num;
 }
 
 void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int length, unsigned long long int num) {
-  std::cout << "step:" << step << std::endl;
+  // std::cout << "step:" << step << std::endl;
 
   Initilize_ElementCount(length, num * step);
   Clock_Go(num * step);
@@ -93,9 +93,9 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
     int new_counter = 0;
     int old_counter = 0;
 
-    if (last_time2 % element_count_step_ == 0) {
-      std::cout << "last_time2:" << last_time2 << std::endl;
-      std::cout << row_length << std::endl;
+    if (last_time2 != 0 && last_time2 % element_count_step_ == 0) {
+      // std::cout << "last_time2:" << last_time2 << std::endl;
+      // std::cout << row_length << std::endl;
     // if (num % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
         frequency_confirmations[row_length] = {0};
@@ -121,7 +121,7 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
           // std::cout << frequency_confirmations[j] << std::endl;
           if (frequency_confirmations[j] > 0) {
 #ifdef ONLY_INPUT_MODE
-            std::cout << "count up" << std::endl;
+            // std::cout << "count up" << std::endl;
             counter[j + i * row_length].count[0] = counter[j + i * row_length].count[0] + frequency_confirmations[j];
 #else
             int new_field = (cycle_num + (position < clock_pos)) % field_num;
