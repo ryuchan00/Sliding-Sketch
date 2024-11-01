@@ -49,7 +49,17 @@ void Read_File(int argc, char* argv[]){
     // int element_count_step = 500;
     // int row_length = 4;    // テスト用
     // hash_number * row_lengthはスケッチ全体のサイズ
-    std::cout << "row_length:" << row_length << std::endl;
+    // std::cout << "row_length:" << row_length << std::endl;
+
+    if (hash_number * row_length < cycle) {
+        std::cout << "hash_number: " << hash_number << std::endl;
+        std::cout << "row_length: " << row_length << std::endl;
+        std::cout << "Should hash_number * row_length < cycle" << std::endl;
+        std::cout << "You should adjust memory param" << std::endl;
+
+        return;
+    }
+
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num, element_count_step);
 
     Data *dat = new Data[cycle + 1];
@@ -110,9 +120,9 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        // if(num%cycle ==0 || num%cycle ==cycle-1){
+        // if(num%cycle ==0){
         cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        cout << input[i][0] << ":" << CM_guess << "," << real << endl;
+        cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
         // }
 
         // 終わり50個前から出力して、over estimationかunder estimationかを確認する
@@ -127,13 +137,13 @@ void Read_File(int argc, char* argv[]){
     }
 
     // パラメータダンプ
-    // cout << "DATA_LEN:" << DATA_LEN << endl;
-    // cout << "input_num_max:" << input_num_max << endl;
-    // cout << "Cycle:" << cycle << endl;
+    cout << "DATA_LEN:" << DATA_LEN << endl;
+    cout << "input_num_max:" << input_num_max << endl;
+    cout << "Cycle:" << cycle << endl;
     cout << "Memory:" << mymemory << endl;
-    // cout << "Hash:" << hash_number << endl;
-    // cout << "Row Length:" << row_length << endl;
-    // cout << "element_count_step:" << element_count_step << endl;
+    cout << "Hash:" << hash_number << endl;
+    cout << "Row Length:" << row_length << endl;
+    cout << "element_count_step:" << element_count_step << endl;
 }
 
 int main(int argc, char* argv[]){

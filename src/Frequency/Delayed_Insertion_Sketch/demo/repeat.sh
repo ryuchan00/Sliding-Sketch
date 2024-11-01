@@ -1,8 +1,10 @@
 #!/bin/bash
 
+input_num=50000
+
 # 0.1から1.0まで0.1刻みでループ
 for i in $(seq 0.1 0.1 1.0); do
   # ./main ../../../../data/sx-stackoverflow_short.txt "$i" # 引数としてiを渡す
-  ./main ../../../../data/artificial2.txt "$i" # 引数としてiを渡す
+  ./main ../../../../data/artificial2.txt "$i" $input_num # 引数としてiを渡す
   # ./main ../../../../data/artificial3.txt "$i" # 引数としてiを渡す
 done
