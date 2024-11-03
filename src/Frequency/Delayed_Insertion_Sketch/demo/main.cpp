@@ -45,7 +45,7 @@ void Read_File(int argc, char* argv[]){
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
     // int row_length = 1;
     
-    int element_count_step = 5000;
+    int element_count_step = std::atoi(argv[4]);;
     // int element_count_step = 500;
     // int row_length = 4;    // テスト用
     // hash_number * row_lengthはスケッチ全体のサイズ
@@ -54,7 +54,7 @@ void Read_File(int argc, char* argv[]){
     if (hash_number * row_length < cycle) {
         std::cout << "hash_number: " << hash_number << std::endl;
         std::cout << "row_length: " << row_length << std::endl;
-        std::cout << "Should hash_number * row_length < cycle" << std::endl;
+        std::cout << "Should hash_number * row_length >= cycle" << std::endl;
         std::cout << "You should adjust memory param" << std::endl;
 
         return;

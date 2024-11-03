@@ -38,7 +38,6 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 #ifdef NOT_USE_CORRECTION_SKETCH
 #else
   correction_count = element_count_2_.at(GetTargetKey(str));
-  // std::cout << "correction_count: " << correction_count << std::endl;
 #endif  // NOT_USE_CORRECTION_SKETCH
 
   for (int i = 0; i < hash_number; i++) {
@@ -50,15 +49,11 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[new_filed] + correction_count, min_num);
 #endif  // ONLY_INPUT_MODE
-    // std::cout << "min_num: " << min_num << std::endl;
   }
-  // std::cout << "counter:" << counter[0].count[0] << " + correction_count: " << correction_count << std::endl;
   return min_num;
 }
 
 void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int length, unsigned long long int num) {
-  // std::cout << "step:" << step << std::endl;
-
   Initilize_ElementCount(length, num * step);
   Clock_Go(num * step);
 
@@ -75,16 +70,13 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
   } else {
     element_count_2_.insert(std::make_pair(GetTargetKey(str), 1));
   }
-  //std::cout << num << ":" << element_count_2_.at(GetTargetKey(str)) << std::endl;
 #endif  // NOT_USE_CORRECTION_SKETCH
 }
 
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
   unsigned int position;
-  int frequency_confirmations[row_length] = {0};
-  // std::cout << "num:" << num << std::endl;
-
-  // std::cout << "l:" << last_time2 << std::endl;
+  // int frequency_confirmations[row_length] = {0};
+  std::vector<int> frequency_confirmations(row_length, 0);
 
   for (; last_time2 < num; ++last_time2) {
 #ifdef NOT_USE_CORRECTION_SKETCH
@@ -94,51 +86,55 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
     int old_counter = 0;
 
     if (last_time2 != 0 && last_time2 % element_count_step_ == 0) {
-      // std::cout << "last_time2:" << last_time2 << std::endl;
-      // std::cout << row_length << std::endl;
-    // if (num % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
-        frequency_confirmations[row_length] = {0};
+        // todo vectorを試してみる
+        // frequency_confirmations[row_length] = {0};
+        frequency_confirmations.assign(row_length, 0);
 
+        // std::cout << "e c 2 size: " << element_count_2_.size() << std::endl;
+        int count = 0;
         for (const auto& [key, value] : element_count_2_) {
           // キャッシュの衝突を検知する
           unsigned char a[DATA_LEN];
-          for (int i = 0; DATA_LEN > i; i++) {
-            a[i] = key[i];
+          for (int j = 0; DATA_LEN > j; j++) {
+            a[j] = key[j];
           }
           position = Hash(a, i, length) % row_length;
-          // std::cout << position << std::endl;
-          if (frequency_confirmations[position] > 0) {
-            // std::cout << "Collision detected" << std::endl;
-          }
-          frequency_confirmations[position] = max(frequency_confirmations[position], value);
+
           // if (frequency_confirmations[position] > 0) {
-          //   std::cout << "frequency_confirmations[" << position << "] = " << frequency_confirmations[position] << std::endl;
+          //   std::cout << "Collision detected" << std::endl;
+          //   std::cout << "key: " << a << std::endl;
+          //   std::cout << "position: " << position << std::endl;
+          //   count++;
+          // } else {
+          //   std::cout << "Collision not detected" << std::endl;
           // }
+
+          frequency_confirmations[position] = max(frequency_confirmations[position], value);
         }
 
         for (int j = 0; j < row_length; j++) {
-          // std::cout << frequency_confirmations[j] << std::endl;
+            int counter_position = j + i * row_length;
+
           if (frequency_confirmations[j] > 0) {
 #ifdef ONLY_INPUT_MODE
-            // std::cout << "count up" << std::endl;
-            counter[j + i * row_length].count[0] = counter[j + i * row_length].count[0] + frequency_confirmations[j];
+            counter[counter_position].count[0] = counter[counter_position].count[0] + frequency_confirmations[j];
 #else
-            int new_field = (cycle_num + (position < clock_pos)) % field_num;
-            int old_field = (cycle_num + (position < clock_pos) + 1) % field_num;
+            int new_field = (cycle_num + (counter_position < clock_pos)) % field_num;
+            int old_field = (cycle_num + (counter_position < clock_pos) + 1) % field_num;
 
             // oldとnewにfrequency_confirmations[j]を分割する
-            if (num - counter[j + i * row_length].recently_reset_time >= element_count_step_) {
-              counter[j + i * row_length].count[old_field] = counter[j + i * row_length].count[old_field] + frequency_confirmations[j];
+            std::cout << "num: " << num / step << std::endl;
+            std::cout << "counter[counter_position].recently_reset_time + element_count_step_: " << counter[counter_position].recently_reset_time + element_count_step_ << std::endl;
+            if (num / step >= counter[counter_position].recently_reset_time + element_count_step_) {
+              counter[counter_position].count[old_field] = counter[counter_position].count[old_field] + frequency_confirmations[j];
             } else {
-              new_counter = frequency_confirmations[j] * (num - counter[j + i * row_length].recently_reset_time) / element_count_step_;
+              new_counter = frequency_confirmations[j] * (num - counter[counter_position].recently_reset_time) / element_count_step_;
               old_counter = frequency_confirmations[j] - new_counter;
-              counter[j + i * row_length].count[old_field] = counter[j + i * row_length].count[old_field] + old_counter;
-              counter[j + i * row_length].count[new_field] = counter[j + i * row_length].count[new_field] + new_counter;
+              counter[counter_position].count[old_field] = counter[counter_position].count[old_field] + old_counter;
+              counter[counter_position].count[new_field] = counter[counter_position].count[new_field] + new_counter;
             }
 #endif // ONLY_INPUT_MODE
-
-            // std::cout << "counter[" << j + i * row_length << "].count[0] = " << counter[j + i * row_length].count[0] << std::endl;
           }
         }
       }
@@ -150,8 +146,6 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 
 // todo: DATA_LEN=8に依存しているコードなので，DETA_LENに合わせてできるようにする
 packet_str Recent_Counter::GetTargetKey(const unsigned char* str) {
-  //return {str[0], str[1], str[2], str[3], str[4], str[5], str[6], str[7]};
-  
   using packet = std::array<unsigned char, DATA_LEN>;
   packet result{};
   for (std::size_t i = 0; i < DATA_LEN; ++i) {
@@ -159,7 +153,6 @@ packet_str Recent_Counter::GetTargetKey(const unsigned char* str) {
   }
   packet_str p = result;
   return result;
-  //return {str[0], str[1], str[2], str[3]};
 }
 
 void Recent_Counter::Clock_Go(unsigned long long int num) {
