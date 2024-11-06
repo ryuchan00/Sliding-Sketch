@@ -56,8 +56,17 @@ public :
 class Recent_Counter: public Recent_Sketch{
 public:
     int field_num;
+
+    /// @brief NewOld struct
+    // struct NewOld{
+    //     int new_count;
+    //     int old_count;
+    // };
+
     struct Unit{
         int* count;
+        // /// @brief NewとOldのみのカウント
+        // NewOld count2;
         int field_num;
         int recently_reset_time;
         int Total(){

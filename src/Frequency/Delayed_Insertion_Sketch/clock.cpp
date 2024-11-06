@@ -45,9 +45,10 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[0] + correction_count, min_num);
 #else
     unsigned int position = Hash(str, i, length) % row_length + i * row_length;
-    int new_filed = (cycle_num + (position < clock_pos)) % field_num;
+    //int new_filed = (cycle_num + (position < clock_pos)) % field_num;
+    int new_filed  = 0;
 
-    min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[new_filed] + correction_count, min_num);
+    min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].Total() + correction_count, min_num);
 #endif  // ONLY_INPUT_MODE
   }
   return min_num;
@@ -120,8 +121,10 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 #ifdef ONLY_INPUT_MODE
             counter[counter_position].count[0] = counter[counter_position].count[0] + frequency_confirmations[j];
 #else
-            int new_field = (cycle_num + (counter_position < clock_pos)) % field_num;
-            int old_field = (cycle_num + (counter_position < clock_pos) + 1) % field_num;
+            // int new_field = (cycle_num + (counter_position < clock_pos)) % field_num;
+            int new_field = 0;
+            // int old_field = (cycle_num + (counter_position < clock_pos) + 1) % field_num;
+            int old_field = 1;
 
             // oldとnewにfrequency_confirmations[j]を分割する
             std::cout << "num: " << num / step << std::endl;
@@ -156,14 +159,22 @@ packet_str Recent_Counter::GetTargetKey(const unsigned char* str) {
 }
 
 void Recent_Counter::Clock_Go(unsigned long long int num) {
+  // for (; last_time < num; ++last_time) {
+  //   counter[clock_pos].count[(cycle_num + 1) % field_num] = 0;
+  //   clock_pos = (clock_pos + 1) % len;
+
+  //   counter[clock_pos].recently_reset_time = num / step;  // 最後にリセットされた時間を記録
+
+  //   if (clock_pos == 0) {
+  //     cycle_num = (cycle_num + 1) % field_num;
+  //   }
+  // }
+
   for (; last_time < num; ++last_time) {
-    counter[clock_pos].count[(cycle_num + 1) % field_num] = 0;
+    counter[clock_pos].count[1] = counter[clock_pos].count[0];
+    counter[clock_pos].count[0] = 0;
     clock_pos = (clock_pos + 1) % len;
 
     counter[clock_pos].recently_reset_time = num / step;  // 最後にリセットされた時間を記録
-
-    if (clock_pos == 0) {
-      cycle_num = (cycle_num + 1) % field_num;
-    }
   }
 }
