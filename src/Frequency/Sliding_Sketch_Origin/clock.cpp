@@ -54,7 +54,7 @@ void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long
             } else {
                 // std::cout << "found" << std::endl;
             }
-        } else {
+        } else {    
             std::vector <in_str> vec = {{str[0],str[1],str[2],str[3]}};
             collision_hash_.at(i).insert(std::make_pair(position, vec));
         }

@@ -42,7 +42,7 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 
   for (int i = 0; i < hash_number; i++) {
 #ifdef ONLY_INPUT_MODE
-    min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].count[0] + correction_count, min_num);
+    min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].Total() + correction_count, min_num);
 #else
     unsigned int position = Hash(str, i, length) % row_length + i * row_length;
     //int new_filed = (cycle_num + (position < clock_pos)) % field_num;
@@ -66,8 +66,9 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
     counter[position].count[0] += 1;
   }
 #else
-  if (element_count_2_.count(GetTargetKey(str)) != 0) {
-    element_count_2_.at(GetTargetKey(str))++;
+  if (element_count_2_.count(GetTargetKey(str)) > 0) {
+    element_count_2_.at(GetTargetKey(str)) += 1;
+    // std::cout << "count:" << element_count_2_.at(GetTargetKey(str)) << std::endl;
   } else {
     element_count_2_.insert(std::make_pair(GetTargetKey(str), 1));
   }
@@ -130,9 +131,10 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
             std::cout << "num: " << num / step << std::endl;
             std::cout << "counter[counter_position].recently_reset_time + element_count_step_: " << counter[counter_position].recently_reset_time + element_count_step_ << std::endl;
             if (num / step >= counter[counter_position].recently_reset_time + element_count_step_) {
-              counter[counter_position].count[old_field] = counter[counter_position].count[old_field] + frequency_confirmations[j];
+              counter[counter_position].count[new_field] = counter[counter_position].count[new_field] + frequency_confirmations[j];
             } else {
               new_counter = frequency_confirmations[j] * (num - counter[counter_position].recently_reset_time) / element_count_step_;
+              // new_counter = frequency_confirmations[j] * 1.0;
               old_counter = frequency_confirmations[j] - new_counter;
               counter[counter_position].count[old_field] = counter[counter_position].count[old_field] + old_counter;
               counter[counter_position].count[new_field] = counter[counter_position].count[new_field] + new_counter;
