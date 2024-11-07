@@ -123,12 +123,12 @@ void Read_File(int argc, char* argv[]){
         // CU_ae += abs(CU_sub);
         // CO_ae += abs(CO_sub);
 
-        // if(num%cycle ==0){
+        if(num%cycle ==0){
         cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
+        // cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
         // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
         // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
-        // }
+        }
 
 
         num++;

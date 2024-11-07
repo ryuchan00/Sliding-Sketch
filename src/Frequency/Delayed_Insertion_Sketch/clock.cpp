@@ -128,8 +128,8 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
             int old_field = 1;
 
             // oldとnewにfrequency_confirmations[j]を分割する
-            std::cout << "num: " << num / step << std::endl;
-            std::cout << "counter[counter_position].recently_reset_time + element_count_step_: " << counter[counter_position].recently_reset_time + element_count_step_ << std::endl;
+            // std::cout << "num: " << num / step << std::endl;
+            // std::cout << "counter[counter_position].recently_reset_time + element_count_step_: " << counter[counter_position].recently_reset_time + element_count_step_ << std::endl;
             if (num / step >= counter[counter_position].recently_reset_time + element_count_step_) {
               counter[counter_position].count[new_field] = counter[counter_position].count[new_field] + frequency_confirmations[j];
             } else {

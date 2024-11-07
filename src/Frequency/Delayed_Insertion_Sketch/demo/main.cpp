@@ -120,10 +120,10 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        // if(num%cycle ==0){
+        if(num%cycle ==0){
         cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
-        // }
+        // cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
+        }
 
         // 終わり50個前から出力して、over estimationかunder estimationかを確認する
         // todo: clock_pos1かclock_pos2のどちらの管理区域か出力する必要がありそう
