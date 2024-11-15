@@ -80,6 +80,9 @@ void Read_File(int argc, char* argv[]){
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
 
+    int overestimation_count = 0;
+    int underestimation_count = 0;
+
     // while(fread(packet.str, DATA_LEN, 1, file) > 0)
     for (int i = 0; i < input.size(); i++)
     {
@@ -121,8 +124,20 @@ void Read_File(int argc, char* argv[]){
         CM_ae += abs(CM_sub);
 
         if(num%cycle ==0){
-        cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
+            cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        }
+        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real;
+        if (CM_guess > real) {
+            // cout << " <===== Overestimation" << endl;
+            overestimation_count++;
+        } else if (CM_guess < real) {
+            // cout << " <===== Underestimation" << endl;
+            underestimation_count++;
+        } else {
+            // cout << endl;
+        // }
+
         }
 
         // 終わり50個前から出力して、over estimationかunder estimationかを確認する
@@ -144,6 +159,8 @@ void Read_File(int argc, char* argv[]){
     cout << "Hash:" << hash_number << endl;
     cout << "Row Length:" << row_length << endl;
     cout << "element_count_step:" << element_count_step << endl;
+    cout << "Overestimation:" << overestimation_count << endl;
+    cout << "Underestimation:" << underestimation_count << endl;
 }
 
 int main(int argc, char* argv[]){

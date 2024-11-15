@@ -133,7 +133,8 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
             if (num / step >= counter[counter_position].recently_reset_time + element_count_step_) {
               counter[counter_position].count[new_field] = counter[counter_position].count[new_field] + frequency_confirmations[j];
             } else {
-              new_counter = frequency_confirmations[j] * (num - counter[counter_position].recently_reset_time) / element_count_step_;
+              new_counter = frequency_confirmations[j];
+              // new_counter = frequency_confirmations[j] * (num - counter[counter_position].recently_reset_time) / element_count_step_;
               // new_counter = frequency_confirmations[j] * 1.0;
               old_counter = frequency_confirmations[j] - new_counter;
               counter[counter_position].count[old_field] = counter[counter_position].count[old_field] + old_counter;
