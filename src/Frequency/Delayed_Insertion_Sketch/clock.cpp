@@ -4,6 +4,8 @@
 
 #include <algorithm>
 #include <cstring>
+// #include <iomanip> // setprecisionを使用するのに必要
+
 
 struct Place {
   unsigned int serial;
@@ -130,11 +132,17 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
             // oldとnewにfrequency_confirmations[j]を分割する
             // std::cout << "num: " << num / step << std::endl;
             // std::cout << "counter[counter_position].recently_reset_time + element_count_step_: " << counter[counter_position].recently_reset_time + element_count_step_ << std::endl;
-            if (num / step >= counter[counter_position].recently_reset_time + element_count_step_) {
+            int real_time = num / step;
+            if (real_time >= counter[counter_position].recently_reset_time + element_count_step_) {
               counter[counter_position].count[new_field] = counter[counter_position].count[new_field] + frequency_confirmations[j];
             } else {
-              new_counter = frequency_confirmations[j];
-              // new_counter = frequency_confirmations[j] * (num - counter[counter_position].recently_reset_time) / element_count_step_;
+              // new_counter = 0;
+              // new_counter = frequency_confirmations[j];
+              double rate = static_cast<double>(real_time - counter[counter_position].recently_reset_time) / static_cast<double>(element_count_step_);
+              // std::cout << "real_time: "  <<  real_time << " reset_time:" << counter[counter_position].recently_reset_time << " element_count_step_:" << element_count_step_ << std::endl;
+              // std::cout << "rate: "  <<  rate << std::endl;
+              new_counter = frequency_confirmations[j] * rate;
+
               // new_counter = frequency_confirmations[j] * 1.0;
               old_counter = frequency_confirmations[j] - new_counter;
               counter[counter_position].count[old_field] = counter[counter_position].count[old_field] + old_counter;
