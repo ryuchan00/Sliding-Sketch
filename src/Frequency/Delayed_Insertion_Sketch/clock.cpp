@@ -75,6 +75,11 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
     element_count_2_.insert(std::make_pair(GetTargetKey(str), 1));
   }
 #endif  // NOT_USE_CORRECTION_SKETCH
+
+  for (int i = 0; i < hash_number; i++) {
+    unsigned int position = Hash(str, i, length) % row_length + i * row_length;
+    hash_count[i][position] += 1;
+  }
 }
 
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
@@ -187,5 +192,20 @@ void Recent_Counter::Clock_Go(unsigned long long int num) {
     clock_pos = (clock_pos + 1) % len;
 
     counter[clock_pos].recently_reset_time = num / step;  // 最後にリセットされた時間を記録
+  }
+}
+
+/// @brief Hashカウントをダンプする
+void Recent_Counter::DumpHashCount() {
+  for(int i = 0;hash_count.size();++i){
+    std::cout << "===========================hash_count[" << i << "]:" << i << std::endl;
+    int count = std::count_if(hash_count[i].begin(), hash_count[i].end(), [](int x) { return x != 0; });
+    std::cout << "hash_count[" << i << "].size():" << count << std::endl;
+    for(int j = 0;hash_count[i].size();++j){
+      if (hash_count[i][j] == 0) {
+        continue;
+      }
+      std::cout << "hash_count[" << i << "][" << j << "]:" << hash_count[i][j] << std::endl;
+    }
   }
 }

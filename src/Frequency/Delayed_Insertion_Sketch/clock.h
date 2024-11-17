@@ -29,6 +29,7 @@ public :
     int field_num;
     unsigned long long int last_time;
     unsigned long long int last_time2;
+    std::vector<std::vector<int>> hash_count;
 
     // c = 500000
     // l = スケッチの全体のサイズ
@@ -49,6 +50,10 @@ public :
         cycle_num = 0;
         cycle_num2 = 0;
         prev_clock_pos2 = 0;
+        hash_count.resize(hash_number);
+        for(int i = 0; i < hash_number; i++){
+            hash_count[i].resize(row_length,0);
+        }
     }
     int Mid(int *num);
 };
@@ -132,7 +137,7 @@ public:
     /// @brief CM Sketch Query an item by Delayed Insertion
     /// @param str target string
     /// @param length target string num
-    /// @return The frequency in a Sketch
+    /// @return The `ency in a Sketch
     unsigned int DelayedInsertion_CM_Query(const unsigned char* str, int length);
 
     /// @brief Delayed Insertion SS update an item
@@ -147,6 +152,10 @@ public:
     int GetTargetKeyIndex(const unsigned char* str);
     int GetTargetKeyIndex(std::string str);
     packet_str GetTargetKey(const unsigned char* str);
+
+    /// @brief Hashカウントをダンプする
+    void DumpHashCount();
 };
+
 
 #endif  // CLOCK_H

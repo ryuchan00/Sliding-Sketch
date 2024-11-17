@@ -165,6 +165,8 @@ void Read_File(int argc, char* argv[]){
     cout << "element_count_step:" << element_count_step << endl;
     cout << "Overestimation:" << overestimation_count << endl;
     cout << "Underestimation:" << underestimation_count << endl;
+
+    CM_Counter.DumpHashCount();
 }
 
 int main(int argc, char* argv[]){
@@ -176,5 +178,5 @@ int main(int argc, char* argv[]){
 
 #ifdef NOT_USE_CORRECTION_SKETCH
     cout << "NOT_USE_CORRECTION_SKETCH" << endl;
-#endif  // NOT_USE_CORRECTION_SKETCH
+#endif  // NOT_USE_CORRECTION_SKETC
 }
