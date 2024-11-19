@@ -61,14 +61,14 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
   Clock_Go(num * step);
 
 #ifdef NOT_USE_CORRECTION_SKETCH
-  unsigned int position;
+  int position;
 
   for(int i = 0;i < hash_number;++i){
     position = Hash(str, i, length) % row_length + i * row_length;
     counter[position].count[0] += 1;
   }
 #else
-  if (element_count_2_.count(GetTargetKey(str)) > 0) {
+  if (element_count_2_.count(GetTargetKey(str)) > 0
     element_count_2_.at(GetTargetKey(str)) += 1;
     // std::cout << "count:" << element_count_2_.at(GetTargetKey(str)) << std::endl;
   } else {
@@ -77,13 +77,18 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
 #endif  // NOT_USE_CORRECTION_SKETCH
 
   for (int i = 0; i < hash_number; i++) {
-    unsigned int position = Hash(str, i, length) % row_length + i * row_length;
+    int position = Hash(str, i, length) % row_length;
+    if (hash_count[i].count(position) > 0) {
+      hash_count[i][position] += 1;
+    } else {
+      hash_count[i].insert(std::make_pair(position, 1));
+    }
     hash_count[i][position] += 1;
   }
 }
 
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
-  unsigned int position;
+  int position;
   // int frequency_confirmations[row_length] = {0};
   std::vector<int> frequency_confirmations(row_length, 0);
 
@@ -197,15 +202,13 @@ void Recent_Counter::Clock_Go(unsigned long long int num) {
 
 /// @brief Hashカウントをダンプする
 void Recent_Counter::DumpHashCount() {
-  for(int i = 0;hash_count.size();++i){
+  for(int i = 0;i < hash_number;++i){
     std::cout << "===========================hash_count[" << i << "]:" << i << std::endl;
-    int count = std::count_if(hash_count[i].begin(), hash_count[i].end(), [](int x) { return x != 0; });
-    std::cout << "hash_count[" << i << "].size():" << count << std::endl;
-    for(int j = 0;hash_count[i].size();++j){
-      if (hash_count[i][j] == 0) {
-        continue;
-      }
-      std::cout << "hash_count[" << i << "][" << j << "]:" << hash_count[i][j] << std::endl;
+    //int count = std::count_if(hash_count[i].begin(), hash_count[i].end(), [](int x) { return x != 0; });
+    std::cout << "hash_count[" << i << "].size():" << hash_count[i].size() << std::endl;
+
+    for (const auto& pair : hash_count[i]) {
+        std::cout << "キー: " << pair.first << ", 値: " << pair.second << std::endl;
     }
   }
 }

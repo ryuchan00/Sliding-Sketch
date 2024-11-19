@@ -29,7 +29,7 @@ public :
     int field_num;
     unsigned long long int last_time;
     unsigned long long int last_time2;
-    std::vector<std::vector<int>> hash_count;
+    std::vector<std::map<int,int>> hash_count;
 
     // c = 500000
     // l = スケッチの全体のサイズ
@@ -51,9 +51,6 @@ public :
         cycle_num2 = 0;
         prev_clock_pos2 = 0;
         hash_count.resize(hash_number);
-        for(int i = 0; i < hash_number; i++){
-            hash_count[i].resize(row_length,0);
-        }
     }
     int Mid(int *num);
 };
