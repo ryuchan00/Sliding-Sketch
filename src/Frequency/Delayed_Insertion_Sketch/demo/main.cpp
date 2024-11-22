@@ -155,6 +155,17 @@ void Read_File(int argc, char* argv[]){
 
     }
 
+    // 現在の時刻を取得
+    std::time_t now = std::time(nullptr);
+
+    // 現在の時刻をローカルタイムに変換
+    std::tm* localTime = std::localtime(&now);
+
+    // フォーマットされた日付を出力
+    std::cout << "date: "
+            << std::put_time(localTime, "%Y-%m-%d %H:%M:%S") // 年-月-日 時:分:秒
+            << std::endl;
+
     // パラメータダンプ
     cout << "DATA_LEN:" << DATA_LEN << endl;
     cout << "input_num_max:" << input_num_max << endl;

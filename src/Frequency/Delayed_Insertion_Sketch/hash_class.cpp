@@ -9,20 +9,21 @@ unsigned int Hash(const unsigned char* str, int num, int length){
 #else
 
 unsigned int Hash(const unsigned char* str, int num, int length){
+    return BOB1(str, length);
     switch(num)
     {
     case 0: return BOB1(str, length);
     case 1: return BOB4(str, length);
     case 2: return BOB2(str, length);
-    case 3: return DJBHash(str, length);
+    //case 3: return DJBHash(str, length);
     case 4: return SDBM(str, length);
     case 5: return OAAT(str, length);
     case 6: return BOB3(str, length);
     case 7: return FNV32(str, length);
-    case 8: return PJWHash(str, length);
+    //case 8: return PJWHash(str, length);
     case 9: return APHash(str, length);
-    case 10: return JSHash(str, length);
-    case 11: return RSHash(str, length);
+    case 3: return JSHash(str, length);
+    case 8: return RSHash(str, length);
     case 12: return BKDR(str, length);
     default: printf("Hash_Num Error\n"); return 0;
     }

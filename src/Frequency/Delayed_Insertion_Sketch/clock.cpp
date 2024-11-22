@@ -68,7 +68,7 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
     counter[position].count[0] += 1;
   }
 #else
-  if (element_count_2_.count(GetTargetKey(str)) > 0
+  if (element_count_2_.count(GetTargetKey(str)) > 0 ) {
     element_count_2_.at(GetTargetKey(str)) += 1;
     // std::cout << "count:" << element_count_2_.at(GetTargetKey(str)) << std::endl;
   } else {
@@ -83,7 +83,6 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
     } else {
       hash_count[i].insert(std::make_pair(position, 1));
     }
-    hash_count[i][position] += 1;
   }
 }
 
@@ -200,15 +199,31 @@ void Recent_Counter::Clock_Go(unsigned long long int num) {
   }
 }
 
+// 比較関数
+bool compareByValue(const std::pair<int, int>& a, const std::pair<int, int>& b) {
+    return a.second > b.second; // 値に基づいて降順で比較
+}
+
 /// @brief Hashカウントをダンプする
 void Recent_Counter::DumpHashCount() {
+
   for(int i = 0;i < hash_number;++i){
     std::cout << "===========================hash_count[" << i << "]:" << i << std::endl;
     //int count = std::count_if(hash_count[i].begin(), hash_count[i].end(), [](int x) { return x != 0; });
     std::cout << "hash_count[" << i << "].size():" << hash_count[i].size() << std::endl;
 
-    for (const auto& pair : hash_count[i]) {
-        std::cout << "キー: " << pair.first << ", 値: " << pair.second << std::endl;
+    // std::mapをstd::vectorにコピー
+    std::vector<std::pair<int, int>> vec(hash_count[i].begin(), hash_count[i].end());
+
+    // 値に基づいてソート
+    std::sort(vec.begin(), vec.end(), compareByValue);
+
+    for (const auto& pair : vec) {
+      //std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
     }
+
+    // for (const auto& pair : hash_count[i]) {
+    //     std::cout << "キー: " << pair.first << ", 値: " << pair.second << std::endl;
+    // }
   }
 }
