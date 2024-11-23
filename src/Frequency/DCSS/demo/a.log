@@ -1,0 +1,322 @@
+i: 0 position: 1
+i: 1 position: 6
+num: 1 clock_pos: 0 clock_pos2: 0
+cycle_num: 0 cycle_num2: 0
+(0,0) (1,0) (0,0) (0,0) 
+(0,0) (0,0) (1,0) (0,0) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 7
+num: 2 clock_pos: 1 clock_pos2: 1.1
+cycle_num: 0 cycle_num2: 0
+(0,0) (1,0) (0,0) (1,0) 
+(0,0) (0,0) (1,0) (1,0) 
+-------------
+
+i: 0 position: 1
+i: 1 position: 7
+num: 3 clock_pos: 2 clock_pos2: 2.2
+cycle_num: 0 cycle_num2: 0
+(0,0) (1,1) (0,0) (1,0) 
+(0,0) (0,0) (1,0) (2,0) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 6
+num: 4 clock_pos: 3 clock_pos2: 3.3
+cycle_num: 0 cycle_num2: 0
+(0,0) (1,1) (0,1) (1,0) 
+(0,0) (0,0) (2,0) (2,0) 
+-------------
+
+i: 0 position: 1
+i: 1 position: 6
+num: 5 clock_pos: 4 clock_pos2: 4.4
+cycle_num: 0 cycle_num2: 0
+(0,0) (1,2) (0,1) (1,0) 
+(0,0) (0,0) (3,0) (2,0) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 6
+num: 6 clock_pos: 5 clock_pos2: 5.5
+cycle_num: 0 cycle_num2: 0
+(0,0) (1,2) (0,2) (1,0) 
+(0,0) (0,0) (4,0) (2,0) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 5
+num: 7 clock_pos: 6 clock_pos2: 6.6
+cycle_num: 0 cycle_num2: 0
+(0,1) (1,2) (0,2) (1,0) 
+(0,0) (0,1) (4,0) (2,0) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 5
+num: 8 clock_pos: 7 clock_pos2: 7.7
+cycle_num: 0 cycle_num2: 0
+(0,2) (1,2) (0,2) (1,0) 
+(0,0) (0,2) (4,0) (2,0) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 6
+num: 9 clock_pos: 0 clock_pos2: 0.8
+cycle_num: 1 cycle_num2: 1
+(0,2) (1,2) (0,3) (1,0) 
+(0,0) (0,2) (4,1) (2,0) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 6
+num: 10 clock_pos: 1 clock_pos2: 1.9
+cycle_num: 1 cycle_num2: 1
+(1,2) (0,2) (0,3) (1,0) 
+(0,0) (0,2) (4,2) (2,0) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 7
+num: 11 clock_pos: 2 clock_pos2: 3
+cycle_num: 1 cycle_num2: 1
+(1,2) (0,2) (0,4) (0,0) 
+(0,0) (0,2) (4,2) (2,1) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 6
+num: 12 clock_pos: 3 clock_pos2: 4.1
+cycle_num: 1 cycle_num2: 1
+(1,2) (0,2) (0,4) (1,0) 
+(0,0) (0,2) (4,3) (2,1) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 5
+num: 13 clock_pos: 4 clock_pos2: 5.2
+cycle_num: 1 cycle_num2: 1
+(2,2) (0,2) (0,4) (1,0) 
+(0,0) (0,3) (4,3) (2,1) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 4
+num: 14 clock_pos: 5 clock_pos2: 6.3
+cycle_num: 1 cycle_num2: 1
+(3,2) (0,2) (0,4) (1,0) 
+(1,0) (0,3) (4,3) (2,1) 
+-------------
+
+i: 0 position: 1
+i: 1 position: 7
+num: 15 clock_pos: 6 clock_pos2: 7.4
+cycle_num: 1 cycle_num2: 1
+(3,2) (1,2) (0,4) (1,0) 
+(1,0) (0,3) (0,3) (0,2) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 6
+num: 16 clock_pos: 7 clock_pos2: 0.5
+cycle_num: 1 cycle_num2: 0
+(4,2) (1,2) (0,4) (1,0) 
+(1,0) (0,3) (1,3) (0,2) 
+-------------
+
+i: 0 position: 1
+i: 1 position: 7
+num: 17 clock_pos: 0 clock_pos2: 1.6
+cycle_num: 0 cycle_num2: 0
+(4,0) (2,0) (0,4) (1,0) 
+(1,0) (0,3) (1,3) (1,2) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 7
+num: 18 clock_pos: 1 clock_pos2: 2.7
+cycle_num: 0 cycle_num2: 0
+(4,0) (2,0) (1,4) (1,0) 
+(1,0) (0,3) (1,3) (2,2) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 4
+num: 19 clock_pos: 2 clock_pos2: 3.8
+cycle_num: 0 cycle_num2: 0
+(4,1) (2,0) (1,0) (1,0) 
+(2,0) (0,3) (1,3) (2,2) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 6
+num: 20 clock_pos: 3 clock_pos2: 4.9
+cycle_num: 0 cycle_num2: 0
+(4,1) (2,0) (1,0) (1,1) 
+(2,0) (0,3) (2,3) (2,2) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 4
+num: 21 clock_pos: 4 clock_pos2: 6
+cycle_num: 0 cycle_num2: 0
+(4,1) (2,0) (1,1) (1,1) 
+(3,0) (0,3) (2,3) (2,2) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 6
+num: 22 clock_pos: 5 clock_pos2: 7.1
+cycle_num: 0 cycle_num2: 0
+(4,2) (2,0) (1,1) (1,1) 
+(3,0) (0,3) (3,3) (2,0) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 5
+num: 23 clock_pos: 6 clock_pos2: 0.2
+cycle_num: 0 cycle_num2: 1
+(4,3) (2,0) (1,1) (1,1) 
+(3,0) (0,4) (3,0) (2,0) 
+-------------
+
+i: 0 position: 1
+i: 1 position: 4
+num: 24 clock_pos: 7 clock_pos2: 1.3
+cycle_num: 0 cycle_num2: 1
+(4,3) (0,1) (1,1) (1,1) 
+(3,1) (0,4) (3,0) (2,0) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 5
+num: 25 clock_pos: 0 clock_pos2: 2.4
+cycle_num: 1 cycle_num2: 1
+(0,3) (0,1) (1,2) (1,1) 
+(3,1) (0,5) (3,0) (2,0) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 5
+num: 26 clock_pos: 1 clock_pos2: 3.5
+cycle_num: 1 cycle_num2: 1
+(0,3) (0,1) (1,2) (0,2) 
+(3,1) (0,6) (3,0) (2,0) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 6
+num: 27 clock_pos: 2 clock_pos2: 4.6
+cycle_num: 1 cycle_num2: 1
+(1,3) (0,1) (0,2) (0,2) 
+(3,1) (0,6) (3,1) (2,0) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 6
+num: 28 clock_pos: 3 clock_pos2: 5.7
+cycle_num: 1 cycle_num2: 1
+(1,3) (0,1) (0,2) (1,2) 
+(3,1) (0,6) (3,2) (2,0) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 7
+num: 29 clock_pos: 4 clock_pos2: 6.8
+cycle_num: 1 cycle_num2: 1
+(1,3) (0,1) (0,2) (2,2) 
+(0,1) (0,6) (3,2) (2,1) 
+-------------
+
+i: 0 position: 1
+i: 1 position: 5
+num: 30 clock_pos: 5 clock_pos2: 7.9
+cycle_num: 1 cycle_num2: 1
+(1,3) (1,1) (0,2) (2,2) 
+(0,1) (1,6) (3,2) (0,1) 
+-------------
+
+i: 0 position: 0
+i: 1 position: 6
+num: 31 clock_pos: 6 clock_pos2: 1
+cycle_num: 1 cycle_num2: 1
+(2,3) (0,1) (0,2) (2,2) 
+(0,1) (1,6) (0,3) (0,1) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 6
+num: 32 clock_pos: 7 clock_pos2: 2.1
+cycle_num: 1 cycle_num2: 1
+(2,3) (0,1) (0,2) (2,3) 
+(0,1) (1,6) (1,3) (0,1) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 4
+num: 33 clock_pos: 0 clock_pos2: 3.2
+cycle_num: 0 cycle_num2: 1
+(2,0) (0,1) (0,2) (0,4) 
+(1,1) (1,6) (1,3) (0,1) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 4
+num: 34 clock_pos: 1 clock_pos2: 4.3
+cycle_num: 0 cycle_num2: 1
+(2,0) (0,1) (1,2) (0,4) 
+(2,1) (1,6) (1,3) (0,1) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 4
+num: 35 clock_pos: 2 clock_pos2: 5.4
+cycle_num: 0 cycle_num2: 1
+(2,0) (0,1) (2,0) (0,4) 
+(3,1) (0,6) (1,3) (0,1) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 5
+num: 36 clock_pos: 3 clock_pos2: 6.5
+cycle_num: 0 cycle_num2: 1
+(2,0) (0,1) (2,0) (1,4) 
+(3,1) (1,6) (1,3) (0,1) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 7
+num: 37 clock_pos: 4 clock_pos2: 7.6
+cycle_num: 0 cycle_num2: 1
+(2,0) (0,1) (2,1) (1,4) 
+(3,0) (1,6) (1,3) (0,2) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 5
+num: 38 clock_pos: 5 clock_pos2: 0.7
+cycle_num: 0 cycle_num2: 0
+(2,0) (0,1) (2,2) (1,4) 
+(3,0) (2,6) (1,3) (0,2) 
+-------------
+
+i: 0 position: 3
+i: 1 position: 5
+num: 39 clock_pos: 6 clock_pos2: 1.8
+cycle_num: 0 cycle_num2: 0
+(2,0) (0,0) (2,2) (2,4) 
+(3,0) (3,6) (1,0) (0,2) 
+-------------
+
+i: 0 position: 1
+i: 1 position: 4
+num: 40 clock_pos: 7 clock_pos2: 2.9
+cycle_num: 0 cycle_num2: 0
+(2,0) (0,1) (2,2) (2,4) 
+(3,1) (3,6) (1,0) (0,2) 
+-------------
+
+i: 0 position: 2
+i: 1 position: 7
