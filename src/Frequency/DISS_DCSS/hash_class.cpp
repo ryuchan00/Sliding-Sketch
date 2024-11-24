@@ -9,7 +9,6 @@ unsigned int Hash(const unsigned char* str, int num, int length){
 #else
 
 unsigned int Hash(const unsigned char* str, int num, int length){
-    return BOB1(str, length);
     switch(num)
     {
     case 0: return BOB1(str, length);
