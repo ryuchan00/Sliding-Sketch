@@ -32,9 +32,9 @@ void Read_File(int argc, char* argv[]){
     // int hash_number = 2;    // テスト用
     // double mymemory  = 1;
     // double mymemory  = 1;
-    double mymemory  = stoi(argv[1]);
+    double mymemory  = std::atof(argv[2]);
     // int input_num_max = 500000;
-    int input_num_max = 5000000;
+    int input_num_max = std::atoi(argv[3]);
     // int input_num_max = 80;
     // バケットの数(today or yesterday)
     int field_num = 2;
@@ -60,7 +60,8 @@ void Read_File(int argc, char* argv[]){
     // FILE* file = fopen("../../../../data/sx-stackoverflow.txt","rb");
     Data packet;
 
-    std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
+    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
@@ -144,7 +145,14 @@ void Read_File(int argc, char* argv[]){
         
     }
 
-    cout << "Memory: " << mymemory << endl;
+    // パラメータダンプ
+    cout << "DATA_LEN:" << DATA_LEN << endl;
+    cout << "input_num_max:" << input_num_max << endl;
+    cout << "Cycle:" << cycle << endl;
+    cout << "Memory:" << mymemory << endl;
+    cout << "Hash:" << hash_number << endl;
+    cout << "Row Length:" << row_length << endl;
+
     cout << "under_estimation_count: " << under_estimation_count << endl;
 
 }
