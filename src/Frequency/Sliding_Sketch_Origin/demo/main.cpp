@@ -129,7 +129,7 @@ void Read_File(int argc, char* argv[]){
 
         // if(num%cycle ==0){
         // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        cout << "time:" << num << " input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
+        // cout << "time:" << num << " input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
         // // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
         // // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
         // }

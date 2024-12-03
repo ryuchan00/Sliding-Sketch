@@ -1,0 +1,81 @@
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,2.27611
+DATA_LEN:4
+input_num_max:500000
+Cycle:80000
+Memory:0.4
+Hash:10
+Row Length:5242
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,0.115097
+DATA_LEN:4
+input_num_max:500000
+Cycle:10000
+Memory:0.4
+Hash:10
+Row Length:5242
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,0.351997
+DATA_LEN:4
+input_num_max:500000
+Cycle:20000
+Memory:0.4
+Hash:10
+Row Length:5242
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,0.742998
+DATA_LEN:4
+input_num_max:500000
+Cycle:30000
+Memory:0.4
+Hash:10
+Row Length:5242
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,0.407764
+DATA_LEN:4
+input_num_max:500000
+Cycle:40000
+Memory:0.4
+Hash:10
+Row Length:5242
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,0.21062
+DATA_LEN:4
+input_num_max:500000
+Cycle:50000
+Memory:0.4
+Hash:10
+Row Length:5242
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,2.98208
+DATA_LEN:4
+input_num_max:500000
+Cycle:60000
+Memory:0.4
+Hash:10
+Row Length:5242
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,2.58588
+DATA_LEN:4
+input_num_max:500000
+Cycle:70000
+Memory:0.4
+Hash:10
+Row Length:5242
+Sliding Sketch,Arrivals,ARE
+Sl-CM,0,-nan
+Sl-CM,500000,2.27611
+DATA_LEN:4
+input_num_max:500000
+Cycle:80000
+Memory:0.4
+Hash:10
+Row Length:5242
