@@ -38,7 +38,8 @@ void Read_File(int argc, char* argv[]){
     // int input_num_max = 50000;
     int input_num_max = std::atoi(argv[3]);
     int field_num = 2;
-    int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
+    //int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
+    int row_length = cycle;
     
     // int row_length = 1;
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length
