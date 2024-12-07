@@ -208,9 +208,9 @@ bool compareByValue(const std::pair<int, int>& a, const std::pair<int, int>& b) 
 void Recent_Counter::DumpHashCount() {
 
   for(int i = 0;i < hash_number;++i){
-    std::cout << "===========================hash_count[" << i << "]:" << i << std::endl;
+    // std::cout << "===========================hash_count[" << i << "]:" << i << std::endl;
     //int count = std::count_if(hash_count[i].begin(), hash_count[i].end(), [](int x) { return x != 0; });
-    std::cout << "hash_count[" << i << "].size():" << hash_count[i].size() << std::endl;
+    // std::cout << "hash_count[" << i << "].size():" << hash_count[i].size() << std::endl;
 
     // std::mapをstd::vectorにコピー
     std::vector<std::pair<int, int>> vec(hash_count[i].begin(), hash_count[i].end());

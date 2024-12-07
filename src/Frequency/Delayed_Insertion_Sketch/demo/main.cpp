@@ -44,6 +44,11 @@ void Read_File(int argc, char* argv[]){
     // 衝突の関係する
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
     // int row_length = 1;
+    int amari = (hash_number * row_length) % cycle;
+    std::cout << "amari:" << amari << std::endl;
+    
+    //row_length = hash_number * row_length / temp_step;
+    
     
     int element_count_step = std::atoi(argv[4]);;
     // int element_count_step = 500;
@@ -59,8 +64,7 @@ void Read_File(int argc, char* argv[]){
 
         return;
     }
-
-    Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num, element_count_step);
+    Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num, element_count_step);
 
     Data *dat = new Data[cycle + 1];
 
