@@ -42,8 +42,11 @@ void Read_File(int argc, char* argv[]){
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
     // int row_length = 4;    // テスト用
     // hash_number * row_lengthはスケッチ全体のサイズ
-    // 
-    Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
+    int amari = (hash_number * row_length) % cycle;
+    std::cout << "amari:" << amari << std::endl;
+
+    Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num);
+    // Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     // Recent_Counter CU_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     // Recent_Counter CO_Counter(2*cycle/3, hash_number * row_length, row_length, hash_number, field_num);
 
