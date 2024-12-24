@@ -56,6 +56,8 @@ void Read_File(int argc, char* argv[]){
     double CM_dif = 0, CU_dif = 0, CO_dif = 0;
     double CM_ae = 0,  CU_ae = 0,  CO_ae = 0;
     double CM_re = 0,  CU_re = 0,  CO_re = 0;
+
+    int overestimation_count = 0;
     int under_estimation_count = 0;
 
     FILE* file = fopen("../../../../data/formatted00.dat","rb");
@@ -112,8 +114,14 @@ void Read_File(int argc, char* argv[]){
 
         int CM_sub = CM_guess - real;
         double diff = (double)CM_guess - real;
-        if (CM_guess < real) {
+        if (CM_guess > real) {
+            // cout << " <===== Overestimation" << endl;
+            overestimation_count++;
+        } else if (CM_guess < real) {
+            // cout << " <===== Underestimation" << endl;
             under_estimation_count++;
+        } else {
+            // cout << endl;
         }
         // int CU_sub = CU_guess - real;
         // int CO_sub = CO_guess - real;
@@ -156,6 +164,7 @@ void Read_File(int argc, char* argv[]){
     cout << "Hash:" << hash_number << endl;
     cout << "Row Length:" << row_length << endl;
 
+    cout << "over_estimation_count: " << overestimation_count << endl;
     cout << "under_estimation_count: " << under_estimation_count << endl;
 
 }

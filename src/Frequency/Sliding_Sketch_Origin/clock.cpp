@@ -38,7 +38,7 @@ Recent_Counter::~Recent_Counter(){
 
 void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long long int num){
     unsigned int position;
-    Clock_Go(num * step);
+    Clock_Go((double)num * step);
     for(int i = 0;i < hash_number;++i){
         position = Hash(str, i, length) % row_length + i * row_length;
         counter[position].count[(cycle_num + (position < clock_pos)) % field_num] += 1;
@@ -107,7 +107,7 @@ unsigned int Recent_Counter::Query(const unsigned char* str, int length){
 static int Count_Hash[2] = {-1, 1};
 void Recent_Counter::CO_Init(const unsigned char *str, int length, unsigned long long num){
     unsigned int position;
-    Clock_Go(num * step);
+    Clock_Go((double)num * step);
     for(int i = 0;i < hash_number;++i){
         position = Hash(str, i, length) % row_length + i * row_length;
         counter[position].count[(cycle_num + (position < clock_pos)) % field_num] +=
@@ -139,9 +139,9 @@ int Recent_Counter::CO_Query(const unsigned char *str, int length){
     return Mid(n);
 }
 
-void Recent_Counter::Clock_Go(unsigned long long int num){
-    
-    for(;last_time < num;++last_time){
+void Recent_Counter::Clock_Go(double num){
+    // std :: cout << "num:" << num << std::endl;    
+    for(;last_time < (unsigned long long int)num;++last_time){
         counter[clock_pos].count[(cycle_num + 1) % field_num] = 0;
         clock_pos = (clock_pos + 1) % len;
         if(clock_pos == 0){

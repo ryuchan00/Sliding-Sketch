@@ -45,7 +45,8 @@ void Read_File(int argc, char* argv[]){
     //row_length = hash_number * row_length / temp_step;
     
     // int row_length = 1;
-    Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num);
+    // Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num);
+    Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     Recent_Counter CU_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     Recent_Counter CO_Counter(2*cycle/3, hash_number * row_length, row_length, hash_number, field_num);
 
