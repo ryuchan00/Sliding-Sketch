@@ -16,7 +16,7 @@ public :
     double prev_clock_pos2;
     unsigned int len;
     // 更新周期
-    unsigned int step;
+    double step;
     unsigned int cycle_num;
     unsigned int cycle_num2;
     int row_length;
@@ -27,7 +27,7 @@ public :
     // c = 500000
     // l = スケッチの全体のサイズ
     Recent_Sketch(unsigned int c, unsigned int l, int _row_length, int _hash_number, int _field_num):
-        len(l),step(l*(_field_num-1)/c),row_length(_row_length),hash_number(_hash_number),field_num(_field_num){
+        len(l),step((double)l*(double)(_field_num-1)/(double)c),row_length(_row_length),hash_number(_hash_number),field_num(_field_num){
         // clock_pos2 = 0;
         // cycle_num2 = 0;
         // 本当にこの実装で大丈夫か？という懸念もある
@@ -66,7 +66,7 @@ public:
 
     Recent_Counter(int c, int l, int _row_length, int _hash_number, int _field_num);
     ~Recent_Counter();
-    void Clock_Go(unsigned long long int num);
+    void Clock_Go(double num);
     void Clock_Go(unsigned long long int num, bool counter2_flag);
     void CM_Init(const unsigned char* str, int length, unsigned long long int num);//CM Sketch update an item
     void CO_Init(const unsigned char* str, int length, unsigned long long int num);//Count Sketch update an item

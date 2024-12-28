@@ -66,7 +66,7 @@ void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long
 
 void Recent_Counter::CU_Init(const unsigned char* str, int length, unsigned long long int num){
     int k = clock_pos / row_length;
-    Clock_Go(num * step);
+    Clock_Go((double)num * step);
     unsigned int position = Hash(str, k ,length) % row_length + k * row_length;
     if(position < clock_pos){
         k = (k + 1) % hash_number;

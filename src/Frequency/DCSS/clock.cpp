@@ -40,7 +40,7 @@ void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long
     // 自信のインスタンスのメンバ変数clock_posが，速さ1か速さ1.1の領域のどちらを参照しているか判定する
     // 速さ1の領域を参照している場合は，Clock_Go(num * step)をcall
     // 速さ1.1の領域を参照している場合は，Clock_Go(num * step * 1.1)をcall
-    Clock_Go(num * step);
+    Clock_Go((double)num * step);
     for(int i = 0;i < hash_number;++i){
         position = Hash(str, i, length) % row_length + i * row_length;
         // std::cout << "i: " << i << " position: " << position << std::endl;
@@ -59,7 +59,7 @@ void Recent_Counter::CU_Init(const unsigned char* str, int length, unsigned long
     // row_lengthは固定
     int k = clock_pos / row_length;
     // ここでclock_posを更新している
-    Clock_Go(num * step);
+    Clock_Go((double)num * step);
     // k * row_length は多分オフセット
     unsigned int position = Hash(str, k ,length) % row_length + k * row_length;
     // yesterdayかtodayかの判定
@@ -108,7 +108,7 @@ unsigned int Recent_Counter::Query(const unsigned char* str, int length, bool di
 static int Count_Hash[2] = {-1, 1};
 void Recent_Counter::CO_Init(const unsigned char *str, int length, unsigned long long num){
     unsigned int position;
-    Clock_Go(num * step);
+    Clock_Go((double)num * step);
     for(int i = 0;i < hash_number;++i){
         position = Hash(str, i, length) % row_length + i * row_length;
         counter[position].count[(cycle_num + (position < clock_pos)) % field_num] +=
@@ -140,7 +140,8 @@ int Recent_Counter::CO_Query(const unsigned char *str, int length){
     return Mid(n);
 }
 
-void Recent_Counter::Clock_Go(unsigned long long int num){
+void Recent_Counter::Clock_Go(double num){
+
     for(;last_time < num;++last_time){
         // std::cout << "num: " << num << " clock_pos: " << clock_pos << " clock_pos2: " << clock_pos2 << std::endl;
         // std::cout << "cycle_num: " << cycle_num << " cycle_num2: " << cycle_num2 << std::endl;

@@ -45,8 +45,8 @@ void Read_File(int argc, char* argv[]){
     int amari = (hash_number * row_length) % cycle;
     std::cout << "amari:" << amari << std::endl;
 
-    Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num);
-    // Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
+    // Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num);
+    Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     // Recent_Counter CU_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     // Recent_Counter CO_Counter(2*cycle/3, hash_number * row_length, row_length, hash_number, field_num);
 

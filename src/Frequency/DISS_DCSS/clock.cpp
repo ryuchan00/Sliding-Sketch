@@ -178,7 +178,7 @@ packet_str Recent_Counter::GetTargetKey(const unsigned char* str) {
   return result;
 }
 
-void Recent_Counter::Clock_Go(unsigned long long int num) {
+void Recent_Counter::Clock_Go(double num) {
   // for (; last_time < num; ++last_time) {
   //   counter[clock_pos].count[(cycle_num + 1) % field_num] = 0;
   //   clock_pos = (clock_pos + 1) % len;
