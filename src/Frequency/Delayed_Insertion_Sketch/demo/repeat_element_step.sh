@@ -3,11 +3,12 @@
 input_num=5000000
 # element_count=1000
 element_counts=(500 1000 1500 2000 2500 3000 3500 4000 4500 5000)
-mymemory=0.4
+mymemory=1
 
 # 0.1から1.0まで0.1刻みでループ
 # for i in $(seq 0.4 0.1 2.0); do
-for element_count in "${element_counts[@]}"; do
+# for element_count in "${element_counts[@]}"; do
+for element_count in $(seq 100 200 5000); do
   echo "Element Count: $element_count"
   echo "===================="
   # output=$(./main ../../../../data/sx-stackoverflow_500_000.txt "$i" $input_num 5000) # ./mainの出力を変数に保存

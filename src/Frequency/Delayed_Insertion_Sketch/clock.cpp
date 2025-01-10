@@ -57,7 +57,7 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
 }
 
 void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int length, unsigned long long int num) {
-  Initilize_ElementCount(length, num * step);
+  Initilize_ElementCount(length, num * step, num);
   Clock_Go(num * step);
 
 #ifdef NOT_USE_CORRECTION_SKETCH
@@ -86,19 +86,21 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
   }
 }
 
-void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num) {
+void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num, unsigned long long int time) {
   int position;
   // int frequency_confirmations[row_length] = {0};
   std::vector<int> frequency_confirmations(row_length, 0);
+  // int time = num / step;
 
-  for (; last_time2 < num; ++last_time2) {
+  // for (; last_time2 < num; ++last_time2) {
 #ifdef NOT_USE_CORRECTION_SKETCH
 
 #else
     int new_counter = 0;
     int old_counter = 0;
 
-    if (last_time2 != 0 && last_time2 % element_count_step_ == 0) {
+    // if (last_time2 != 0 && last_time2 % element_count_step_ == 0) {
+    if (time != 0 && time % element_count_step_ == 0) {
       for (int i = 0; i < hash_number; i++) {
         // todo vectorを試してみる
         // frequency_confirmations[row_length] = {0};
@@ -164,7 +166,7 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
       element_count_2_.clear();
     }
 #endif  // NOT_USE_CORRECTION_SKETCH
-  }
+  // }
 }
 
 // todo: DATA_LEN=8に依存しているコードなので，DETA_LENに合わせてできるようにする
