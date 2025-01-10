@@ -8,6 +8,7 @@
 #include "../clock.h"
 #include "../data.h"
 #include "../../../csv.h"
+#include "../../../ssv.h"
 
 using namespace std;
 unordered_map<Data, int, My_Hash> mp;
@@ -65,16 +66,19 @@ void Read_File(int argc, char* argv[]){
     // FILE* file = fopen("../../../../data/sx-stackoverflow.txt","rb");
     Data packet;
 
-    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    // std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
 
     // while(fread(packet.str, DATA_LEN, 1, file) > 0)
-    for (int i = 0; i < input.size(); i++)
-    {
-        std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    // for (int i = 0; i < input.size(); i++)
+    // {
+    //     std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    for (int i = 0; i < input2.size(); i++) {
+        std::memcpy(packet.str, &input2[i], DATA_LEN);
         // cout << "INPUT: " << packet.str << endl;
 
         if(num > input_num_max){
@@ -138,11 +142,11 @@ void Read_File(int argc, char* argv[]){
         // CU_ae += abs(CU_sub);
         // CO_ae += abs(CO_sub);
 
-        if(num%cycle ==0){
-        cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
-        // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
-        }
+        // if(num%cycle ==0){
+        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
+        // // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
+        // }
 
         // 終わり50個前から出力して、over estimationかunder estimationかを確認する
         // todo: clock_pos1かclock_pos2のどちらの管理区域か出力する必要がありそう
@@ -155,6 +159,8 @@ void Read_File(int argc, char* argv[]){
 
         
     }
+
+    cout << "ARE" << "," << num << "," << CM_re / num << endl;
 
     // パラメータダンプ
     cout << "DATA_LEN:" << DATA_LEN << endl;

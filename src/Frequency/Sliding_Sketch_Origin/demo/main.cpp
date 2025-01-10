@@ -9,6 +9,7 @@
 #include "../clock.h"
 #include "../data.h"
 #include "../../../csv.h"
+#include "../../../ssv.h"
 
 using namespace std;
 unordered_map<Data, int, My_Hash> mp;
@@ -71,22 +72,24 @@ void Read_File(int argc, char* argv[]){
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/webdocs.dat");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial4.txt");
-    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    //std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
+    std::cout << "input size" << input2.size() << std::endl;
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
 
 #ifdef USE_SAMPLE_DATA
     while(fread(packet.str, DATA_LEN, 1, file) > 0) {
 #else
-    for (int i = 0; i < input.size(); i++) {
-        std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    // for (int i = 0; i < input.size(); i++) {
+    for (int i = 0; i < input2.size(); i++) {
+        std::memcpy(packet.str, &input2[i], DATA_LEN);
 #endif  // USE_SAMPLE_DATA
 
         // for(int j = 0; j < DATA_LEN; ++j) {
         //   std::cout << std::hex << static_cast<int>(packet.str[j]) << " ";
         // }
         //cout << endl;
-        //std::cout << packet.str << std::endl;
 
         if(num > input_num_max){
             break;
@@ -132,20 +135,21 @@ void Read_File(int argc, char* argv[]){
         // CO_ae += abs(CO_sub);
 
         // if(num%cycle ==0){
-        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // cout << "time:" << num << " input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
-        // // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
-        // // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
+        //  cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // // cout << "time:" << num << " input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
+        // // // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
+        // // // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
         // }
 
-        if(num%input_num_max ==0){
-            cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        }
+        //if(num%input_num_max ==0){
+            // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        //}
 
         num++;
 
         
     }
+    cout << "ARE" << "," << num << "," << CM_re / num << endl;
 
 #ifdef CHECK_COLLISION_HASH
     cout << "collision count" << CM_Counter.collision_count_ << endl;
