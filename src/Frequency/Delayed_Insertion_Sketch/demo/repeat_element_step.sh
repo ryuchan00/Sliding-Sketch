@@ -8,7 +8,7 @@ mymemory=1
 # 0.1から1.0まで0.1刻みでループ
 # for i in $(seq 0.4 0.1 2.0); do
 # for element_count in "${element_counts[@]}"; do
-for element_count in $(seq 100 200 5000); do
+for element_count in $(seq 200 200 10000); do
   echo "Element Count: $element_count"
   echo "===================="
   # output=$(./main ../../../../data/sx-stackoverflow_500_000.txt "$i" $input_num 5000) # ./mainの出力を変数に保存
