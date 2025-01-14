@@ -41,14 +41,14 @@ void Read_File(int argc, char* argv[]){
     
     int element_count_step = std::atoi(argv[4]);;
 
-    if (hash_number * row_length < cycle) {
-        std::cout << "hash_number: " << hash_number << std::endl;
-        std::cout << "row_length: " << row_length << std::endl;
-        std::cout << "Should hash_number * row_length >= cycle" << std::endl;
-        std::cout << "You should adjust memory param" << std::endl;
+    // if (hash_number * row_length < cycle) {
+    //     std::cout << "hash_number: " << hash_number << std::endl;
+    //     std::cout << "row_length: " << row_length << std::endl;
+    //     std::cout << "Should hash_number * row_length >= cycle" << std::endl;
+    //     std::cout << "You should adjust memory param" << std::endl;
 
-        return;
-    }
+    //     return;
+    // }
     // Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num, element_count_step);
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num, element_count_step);
 
@@ -65,8 +65,8 @@ void Read_File(int argc, char* argv[]){
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
-    // std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
-    std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
+    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    // std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
@@ -75,12 +75,13 @@ void Read_File(int argc, char* argv[]){
     int underestimation_count = 0;
 
     // while(fread(packet.str, DATA_LEN, 1, file) > 0)
-    // for (int i = 0; i < input.size(); i++)
-    // {
-    for (int i = 0; i < input2.size(); i++) {
-        std::memcpy(packet.str, &input2[i], DATA_LEN);
+    for (int i = 0; i < input.size(); i++)
+    {
+        std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    // for (int i = 0; i < input2.size(); i++) {
+    //     std::memcpy(packet.str, &input2[i], DATA_LEN);
         // cout << "INPUT: " << packet.str << endl;
-        // std::memcpy(packet.str, &input[i][0], DATA_LEN);
+        
 
         if(num > input_num_max){
             break;

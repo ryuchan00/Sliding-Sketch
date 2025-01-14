@@ -11,7 +11,7 @@
 #include "definition.h"
 #include "hash_class.h"
 
-//typedef std::array<const unsigned char, DATA_LEN> packet_str;
+/// @brief 入力要素の構造
 using packet_str = std::array<unsigned char, DATA_LEN>;
 
 class Recent_Sketch{
@@ -109,16 +109,10 @@ public:
         int count;
     };
 
-
-    /// @brief correction sketch
-    //std::vector<Frequency> element_count_2_;
-
+    /// @brief 補正スケッチ
     std::map<packet_str, int> element_count_2_;
 
-    /// @brief correction sketch
-    //std::vector<Frequency> element_count_2_;
-
-    /// @brief element_count_ update time
+    /// @brief 補正スケッチの更新間隔
     int element_count_step_;
     
     Recent_Counter(int c, int l, int _row_length, int _hash_number, int _field_num, int element_count_step);

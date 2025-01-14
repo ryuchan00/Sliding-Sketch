@@ -27,72 +27,46 @@ unordered_map<Data, int, My_Hash> mp;
 //argv[9]:field
 
 void Read_File(int argc, char* argv[]){
-    //int cycle = 5;
      int cycle = 50000;
     // 所持しているハッシュ関数
     int hash_number = 10;
-    // int hash_number = 2;    // テスト用
-    // double mymemory  = 1;
-    // double mymemory  = 1;
-    //double mymemory  = stoi(argv[2]);
     double mymemory  = std::atof(argv[2]);
-    // int input_num_max = 50000;
-    //int input_num_max = 50000;
     int input_num_max = std::atoi(argv[3]);
-    // int input_num_max = 500;
     // バケットの数(today or yesterday)
     int field_num = 2;
     // 衝突の関係する
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
-    // int row_length = 1;
-    
+    // 補正スケッチの更新間隔    
     int element_count_step = std::atoi(argv[4]);;
-    // int element_count_step = 500;
-    // int row_length = 4;    // テスト用
-    // hash_number * row_lengthはスケッチ全体のサイズ
-    // std::cout << "row_length:" << row_length << std::endl;
 
-    // if (hash_number * row_length < cycle) {
-    //     std::cout << "hash_number: " << hash_number << std::endl;
-    //     std::cout << "row_length: " << row_length << std::endl;
-    //     std::cout << "Should hash_number * row_length >= cycle" << std::endl;
-    //     std::cout << "You should adjust memory param" << std::endl;
-
-    //     return;
-    // }
-    int amari = (hash_number * row_length) % cycle;
-    std::cout << "amari:" << amari << std::endl;
-
-    // Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num, element_count_step);
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num, element_count_step);
 
     Data *dat = new Data[cycle + 1];
 
     unsigned long long int num = 0;
-    double CM_dif = 0, CU_dif = 0, CO_dif = 0;
-    double CM_ae = 0,  CU_ae = 0,  CO_ae = 0;
-    double CM_re = 0,  CU_re = 0,  CO_re = 0;
+    double CM_dif = 0;
+    double CM_ae = 0;
+    double CM_re = 0;
 
-    FILE* file = fopen("../../../../data/formatted00.dat","rb");
     Data packet;
 
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
-    //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
+    // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
     std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
     // std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
-    // cout << "num,diff,guess,real " << endl;
 
     int overestimation_count = 0;
     int underestimation_count = 0;
 
     // while(fread(packet.str, DATA_LEN, 1, file) > 0)
+    // sx-stackoverflow.txtのデータを読み込む
     for (int i = 0; i < input.size(); i++)
     {
-        // cout << "INPUT: " << packet.str << endl;
         std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    // Webdocs.datのデータを読み込む
     // for (int i = 0; i < input2.size(); i++) {
     //     std::memcpy(packet.str, &input2[i], DATA_LEN);
 
@@ -107,8 +81,6 @@ void Read_File(int argc, char* argv[]){
 
 
         dat[pos] = packet;
-        // バイナリデータ？
-        // cout << packet.str << endl;
 
         CM_Counter.DelayedInsertion_CM_Init(packet.str, DATA_LEN, num);
 
@@ -133,8 +105,7 @@ void Read_File(int argc, char* argv[]){
         if(num%cycle ==0){
             cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
         }
-        // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real;
+
         if (CM_guess > real) {
             // cout << " <===== Overestimation" << endl;
             overestimation_count++;
@@ -145,21 +116,7 @@ void Read_File(int argc, char* argv[]){
             // cout << endl;
         }
 
-        // if(num%input_num_max ==0){
-        //     cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // }
-
-        // }
-
-        // 終わり50個前から出力して、over estimationかunder estimationかを確認する
-        // todo: clock_pos1かclock_pos2のどちらの管理区域か出力する必要がありそう
-        // if (input_num_max - 50 < num) {
-            //  cout << num << "," << diff << "," << CM_guess << "," << real << endl;
-        // }
-
-
         num++;
-
     }
 
     // 現在の時刻を取得
