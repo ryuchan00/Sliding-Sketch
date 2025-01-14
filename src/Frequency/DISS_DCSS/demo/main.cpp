@@ -9,6 +9,7 @@
 #include "../clock.h"
 #include "../data.h"
 #include "../../../csv.h"
+#include "../../../ssv.h"
 
 
 using namespace std;
@@ -51,14 +52,14 @@ void Read_File(int argc, char* argv[]){
     // hash_number * row_lengthはスケッチ全体のサイズ
     // std::cout << "row_length:" << row_length << std::endl;
 
-    if (hash_number * row_length < cycle) {
-        std::cout << "hash_number: " << hash_number << std::endl;
-        std::cout << "row_length: " << row_length << std::endl;
-        std::cout << "Should hash_number * row_length >= cycle" << std::endl;
-        std::cout << "You should adjust memory param" << std::endl;
+    // if (hash_number * row_length < cycle) {
+    //     std::cout << "hash_number: " << hash_number << std::endl;
+    //     std::cout << "row_length: " << row_length << std::endl;
+    //     std::cout << "Should hash_number * row_length >= cycle" << std::endl;
+    //     std::cout << "You should adjust memory param" << std::endl;
 
-        return;
-    }
+    //     return;
+    // }
     int amari = (hash_number * row_length) % cycle;
     std::cout << "amari:" << amari << std::endl;
 
@@ -79,6 +80,7 @@ void Read_File(int argc, char* argv[]){
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
     std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    // std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
@@ -91,6 +93,8 @@ void Read_File(int argc, char* argv[]){
     {
         // cout << "INPUT: " << packet.str << endl;
         std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    // for (int i = 0; i < input2.size(); i++) {
+    //     std::memcpy(packet.str, &input2[i], DATA_LEN);
 
         if(num > input_num_max){
             break;
@@ -126,9 +130,9 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        // if(num%cycle ==0){
-            // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // }
+        if(num%cycle ==0){
+            cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        }
         // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
         // cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real;
         if (CM_guess > real) {
@@ -141,9 +145,9 @@ void Read_File(int argc, char* argv[]){
             // cout << endl;
         }
 
-        if(num%input_num_max ==0){
-            cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        }
+        // if(num%input_num_max ==0){
+        //     cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // }
 
         // }
 

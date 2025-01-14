@@ -66,19 +66,19 @@ void Read_File(int argc, char* argv[]){
     // FILE* file = fopen("../../../../data/sx-stackoverflow.txt","rb");
     Data packet;
 
-    // std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
-    std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
+    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    // std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
 
     // while(fread(packet.str, DATA_LEN, 1, file) > 0)
-    // for (int i = 0; i < input.size(); i++)
-    // {
-    //     std::memcpy(packet.str, &input[i][0], DATA_LEN);
-    for (int i = 0; i < input2.size(); i++) {
-        std::memcpy(packet.str, &input2[i], DATA_LEN);
+    for (int i = 0; i < input.size(); i++)
+    {
+        std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    // for (int i = 0; i < input2.size(); i++) {
+    //     std::memcpy(packet.str, &input2[i], DATA_LEN);
         // cout << "INPUT: " << packet.str << endl;
 
         if(num > input_num_max){
