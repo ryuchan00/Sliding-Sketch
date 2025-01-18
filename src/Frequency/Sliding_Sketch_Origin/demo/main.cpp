@@ -136,12 +136,12 @@ void Read_File(int argc, char* argv[]){
         // CU_ae += abs(CU_sub);
         // CO_ae += abs(CO_sub);
 
-        // if(num%cycle ==0){
-        //  cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        if(num%cycle ==0){
+         cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
         // // cout << "time:" << num << " input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real << endl;
         // // // cout << "Sl-CU" << "," << num << "," << CU_re / num << endl;
         // // // cout << "Sl-Count" << "," << num << "," << CO_re / num << endl;
-        // }
+        }
 
         if(num%input_num_max ==0){
             cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
@@ -157,6 +157,7 @@ void Read_File(int argc, char* argv[]){
     cout << "collision count" << CM_Counter.collision_count_ << endl;
     cout << "collision access count" << CM_Counter.collision_element_access_count_ << endl;
 #endif // CHECK_COLLISION_HASH
+    CM_Counter.DumpHitCount();
 
     // パラメータダンプ
     cout << "DATA_LEN:" << DATA_LEN << endl;

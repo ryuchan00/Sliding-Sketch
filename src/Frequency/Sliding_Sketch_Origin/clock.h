@@ -21,12 +21,14 @@ public :
     int hash_number;
     int field_num;
     unsigned long long int last_time;
+    std::vector<int> hit_counts;
 
     Recent_Sketch(unsigned int c, unsigned int l, int _row_length, int _hash_number, int _field_num):
         len(l),step((double)l*(double)(_field_num-1)/(double)c),row_length(_row_length),hash_number(_hash_number),field_num(_field_num){
         clock_pos = 0;
         last_time = 0;
         cycle_num = 0;
+        hit_counts.resize(hash_number, 0);
         std::cout << "step:" << step << std::endl;
     }
     int Mid(int *num);
@@ -62,6 +64,7 @@ public:
     void CU_Init(const unsigned char* str, int length, unsigned long long int num);//CU Sketch update an item
     int CO_Query(const unsigned char* str, int length);//Count Sketch query an item
     unsigned int Query(const unsigned char* str, int length);//CM(CU) Sketch update an item
+    void DumpHitCount();
 };
 
 #endif // CLOCK_H

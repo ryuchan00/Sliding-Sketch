@@ -42,7 +42,6 @@ void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long
     for(int i = 0;i < hash_number;++i){
         position = Hash(str, i, length) % row_length + i * row_length;
         counter[position].count[(cycle_num + (position < clock_pos)) % field_num] += 1;
-
 #ifdef CHECK_COLLISION_HASH
         if (collision_hash_.at(i).find(position) != collision_hash_.at(i).end()) {
             in_str in = {str[0],str[1],str[2],str[3]};
@@ -89,6 +88,16 @@ unsigned int Recent_Counter::Query(const unsigned char* str, int length){
     unsigned int min_num = 0x7fffffff;
     unsigned int position;
 
+#ifdef GET_USING_FREQUENCY_PREIOD
+    // いくつ離れているか？
+    int distance = 0;
+    unsigned int before_min_num = 0x7fffffff;
+    int min_hash_number = 0;
+    int current_index;
+
+    // clock_pos
+#endif // GET_USING_FREQUENCY_PREIOD
+
     for(int i = 0;i < hash_number;++i) {
 #ifdef CHECK_COLLISION_HASH
     position = Hash(str, i, length) % row_length + i * row_length;
@@ -97,9 +106,27 @@ unsigned int Recent_Counter::Query(const unsigned char* str, int length){
         collision_element_access_count_++;
     }
 #endif // CHECK_COLLISION_HASH
-        min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].Total(), min_num);
-        
+    int position;
+#ifdef GET_USING_FREQUENCY_PREIOD
+        current_index = (clock_pos % row_length + i) % hash_number;
+        position = Hash(str, current_index, length) % row_length + current_index * row_length;
+
+        if (counter[position].Total() < min_num) {
+            min_hash_number = current_index;
+        } else {
+
+        }
+#else
+        position = Hash(str, i, length) % row_length + i * row_length;
+#endif // GET_USING_FREQUENCY_PREIOD
+
+        min_num = min(counter[position].Total(), min_num);
     }
+
+#ifdef GET_USING_FREQUENCY_PREIOD
+    distance = (clock_pos % row_length - min_hash_number + hash_number) % hash_number;
+    hit_counts[distance]++;
+#endif // GET_USING_FREQUENCY_PREIOD
 
     return min_num;
 }
@@ -147,5 +174,12 @@ void Recent_Counter::Clock_Go(double num){
         if(clock_pos == 0){
             cycle_num = (cycle_num + 1) % field_num;
         }
+    }
+}
+
+
+void Recent_Counter::DumpHitCount() {
+    for (size_t i = 0; i < hit_counts.size(); ++i) {
+        std::cout << i << ":" << hit_counts[i] << std::endl;
     }
 }
