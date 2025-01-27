@@ -39,9 +39,16 @@ Recent_Counter::~Recent_Counter(){
 void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long long int num){
     unsigned int position;
     Clock_Go((double)num * step);
+
+    std::chrono::high_resolution_clock::time_point insertion_start_time;
+    std::chrono::high_resolution_clock::time_point insertion_end_time;
+    std::chrono::microseconds duration;
+    insertion_start_time = std::chrono::high_resolution_clock::now();
+
     for(int i = 0;i < hash_number;++i){
         position = Hash(str, i, length) % row_length + i * row_length;
         counter[position].count[(cycle_num + (position < clock_pos)) % field_num] += 1;
+
 #ifdef CHECK_COLLISION_HASH
         if (collision_hash_.at(i).find(position) != collision_hash_.at(i).end()) {
             in_str in = {str[0],str[1],str[2],str[3]};
@@ -61,6 +68,10 @@ void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long
 #endif // CHECK_COLLISION_HASH
 
     }
+
+    insertion_end_time = std::chrono::high_resolution_clock::now();
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(insertion_end_time - insertion_start_time);
+    insertion_time += duration;
 }
 
 void Recent_Counter::CU_Init(const unsigned char* str, int length, unsigned long long int num){
@@ -95,38 +106,67 @@ unsigned int Recent_Counter::Query(const unsigned char* str, int length){
     int min_hash_number = 0;
     int current_index;
 
-    // clock_pos
+    // current_index = (clock_pos / row_length + hash_number) % hash_number;
+    // position = Hash(str, current_index, length) % row_length + current_index * row_length;
+
+    // std::cout << "---" << std::endl;
+    // std::cout << "before_current_index: " << current_index << std::endl;
+
+    int init_num;   // 初期のハッシュ関数の探索場所
+    int new_clock_pos;
+    // if (Hash(str, current_index, length) % row_length < clock_pos % row_length) {
+    //     new_clock_pos = (clock_pos - row_length + len) % len;
+    // } else {
+        new_clock_pos = clock_pos;
+    // }
+    // std::cout << "---" << std::endl;
 #endif // GET_USING_FREQUENCY_PREIOD
 
-    for(int i = 0;i < hash_number;++i) {
+    std::chrono::high_resolution_clock::time_point start_time;
+    std::chrono::high_resolution_clock::time_point end_time;
+    start_time = std::chrono::high_resolution_clock::now();
+
+    for(int i = 0;i < hash_number;++i){
 #ifdef CHECK_COLLISION_HASH
-    position = Hash(str, i, length) % row_length + i * row_length;
-
-    if(collision_hash_.at(i).at(position).size() > 1) {
-        collision_element_access_count_++;
-    }
-#endif // CHECK_COLLISION_HASH
-    int position;
-#ifdef GET_USING_FREQUENCY_PREIOD
-        current_index = (clock_pos % row_length + i) % hash_number;
-        position = Hash(str, current_index, length) % row_length + current_index * row_length;
-
-        if (counter[position].Total() < min_num) {
-            min_hash_number = current_index;
-        } else {
-
-        }
-#else
         position = Hash(str, i, length) % row_length + i * row_length;
+
+        if(collision_hash_.at(i).at(position).size() > 1) {
+            collision_element_access_count_++;
+        }
+#endif // CHECK_COLLISION_HASH
+
+#ifdef GET_USING_FREQUENCY_PREIOD
+        before_min_num = min_num;
 #endif // GET_USING_FREQUENCY_PREIOD
+        position = Hash(str, i, length) % row_length + i * row_length;
 
         min_num = min(counter[position].Total(), min_num);
+
+#ifdef GET_USING_FREQUENCY_PREIOD
+        // current_index = (new_clock_pos / row_length - i + hash_number) % hash_number;
+        // std::cout << "current_index: " << current_index << std::endl;
+
+        // position = Hash(str, current_index, length) % row_length + current_index * row_length;
+
+        if (counter[position].Total() <= before_min_num) {
+            // min_hash_number = current_index;
+            min_hash_number = i;
+        }
+        // std::cout << "min_num: " << min_num << std::endl;
+        // std::cout << "min_hash_number: " << min_hash_number << std::endl;
+#endif // GET_USING_FREQUENCY_PREIOD
+
     }
 
 #ifdef GET_USING_FREQUENCY_PREIOD
-    distance = (clock_pos % row_length - min_hash_number + hash_number) % hash_number;
+    distance = (clock_pos / row_length - min_hash_number + hash_number) % hash_number;
+    // std::cout << "----------------------: " << min_hash_number << std::endl;
     hit_counts[distance]++;
 #endif // GET_USING_FREQUENCY_PREIOD
+
+    end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::microseconds duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+    query_time += duration;
 
     return min_num;
 }

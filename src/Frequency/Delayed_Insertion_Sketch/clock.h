@@ -8,6 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <chrono>
 #include "definition.h"
 #include "hash_class.h"
 
@@ -31,10 +32,37 @@ public :
     unsigned long long int last_time2;
     std::vector<std::map<int,int>> hash_count;
 
+    /// @brief スケッチへの挿入実行時間
+    std::chrono::microseconds insertion_time;
+    /// @brief 書き戻し実行時間
+    std::chrono::microseconds return_write_time;
+    /// @brief 補正スケッチへの挿入時間
+    std::chrono::microseconds insertion_correct_sketch_time;
+    /// @brief ハッシュコリジョン検出時間
+    std::chrono::microseconds detect_hash_collision_time;
+
+    std::chrono::microseconds initilize_element_count_time;
+
+    std::chrono::microseconds increment_time;
+    /// @brief クエリの実行時間駅粗供養
+    std::chrono::microseconds query_time;
+    /// @brief ターゲットキーの取得時間
+    std::chrono::microseconds GetTargetKey_time;
+
+    std::chrono::microseconds time1{0};
+    std::chrono::microseconds time2{0};
+    std::chrono::microseconds time3{0};
+    std::chrono::microseconds time4{0};
+
+    std::vector<int> frequency_confirmations;
+
+
     // c = 500000
     // l = スケッチの全体のサイズ
     Recent_Sketch(unsigned int c, unsigned int l, int _row_length, int _hash_number, int _field_num):
-        len(l),step((double)l*(double)(_field_num-1)/(double)c),row_length(_row_length),hash_number(_hash_number),field_num(_field_num){
+        len(l),step((double)l*(double)(_field_num-1)/(double)c),row_length(_row_length),hash_number(_hash_number),field_num(_field_num)
+        ,insertion_time(0),query_time(0),return_write_time(0),insertion_correct_sketch_time(0),detect_hash_collision_time(0),GetTargetKey_time(0),initilize_element_count_time(0),increment_time(0)
+        ,time1(0),time2(0),time3(0),time4(0){
         // clock_pos2 = 0;
         // cycle_num2 = 0;
         // 本当にこの実装で大丈夫か？という懸念もある
@@ -51,6 +79,7 @@ public :
         cycle_num2 = 0;
         prev_clock_pos2 = 0;
         hash_count.resize(hash_number);
+        frequency_confirmations.assign(row_length, 0);
     }
     int Mid(int *num);
 };
@@ -114,6 +143,7 @@ public:
     //std::vector<Frequency> element_count_2_;
 
     std::map<packet_str, int> element_count_2_;
+    
 
     /// @brief correction sketch
     //std::vector<Frequency> element_count_2_;

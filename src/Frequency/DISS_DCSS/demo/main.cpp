@@ -27,7 +27,7 @@ unordered_map<Data, int, My_Hash> mp;
 //argv[9]:field
 
 void Read_File(int argc, char* argv[]){
-     int cycle = 50000;
+    int cycle = std::atoi(argv[4]);
     // 所持しているハッシュ関数
     int hash_number = 10;
     double mymemory  = std::atof(argv[2]);
@@ -37,7 +37,7 @@ void Read_File(int argc, char* argv[]){
     // 衝突の関係する
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
     // 補正スケッチの更新間隔    
-    int element_count_step = std::atoi(argv[4]);;
+    int element_count_step = std::atoi(argv[5]);;
 
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num, element_count_step);
 
@@ -53,8 +53,8 @@ void Read_File(int argc, char* argv[]){
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
-    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
-    // std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
+    // std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
 
@@ -63,12 +63,12 @@ void Read_File(int argc, char* argv[]){
 
     // while(fread(packet.str, DATA_LEN, 1, file) > 0)
     // sx-stackoverflow.txtのデータを読み込む
-    for (int i = 0; i < input.size(); i++)
-    {
-        std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    // for (int i = 0; i < input.size(); i++)
+    // {
+        // std::memcpy(packet.str, &input[i][0], DATA_LEN);
     // Webdocs.datのデータを読み込む
-    // for (int i = 0; i < input2.size(); i++) {
-    //     std::memcpy(packet.str, &input2[i], DATA_LEN);
+    for (int i = 0; i < input2.size(); i++) {
+        std::memcpy(packet.str, &input2[i], DATA_LEN);
 
         if(num > input_num_max){
             break;
@@ -102,9 +102,9 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        if(num%cycle ==0){
-            cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        }
+        // if(num%cycle ==0){
+        //     cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // }
 
         if (CM_guess > real) {
             // cout << " <===== Overestimation" << endl;
@@ -118,6 +118,11 @@ void Read_File(int argc, char* argv[]){
 
         num++;
     }
+
+    cout << "ARE" << "," << num << "," << CM_re / num << endl;
+
+    cout << "Execution insertion time for the loop," << CM_Counter.insertion_time.count() << endl;
+    cout << "Execution query time for the loop," << CM_Counter.query_time.count() << endl;
 
     // 現在の時刻を取得
     std::time_t now = std::time(nullptr);
@@ -140,8 +145,9 @@ void Read_File(int argc, char* argv[]){
     cout << "element_count_step:" << element_count_step << endl;
     cout << "Overestimation:" << overestimation_count << endl;
     cout << "Underestimation:" << underestimation_count << endl;
+    cout << "Match:" << input_num_max - overestimation_count - underestimation_count << endl;
 
-    CM_Counter.DumpHashCount();
+    // CM_Counter.DumpHashCount();
 }
 
 int main(int argc, char* argv[]){

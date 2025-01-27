@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string.h>
 #include <algorithm>
+#include <chrono>
 #include "definition.h"
 #include "hash_class.h"
 
@@ -24,10 +25,16 @@ public :
     int field_num;
     unsigned long long int last_time;
 
+    /// @brief スケッチへの挿入実行時間
+    std::chrono::microseconds insertion_time;
+    /// @brief クエリの実行時間駅粗供養
+    std::chrono::microseconds query_time;
+
     // c = 500000
     // l = スケッチの全体のサイズ
     Recent_Sketch(unsigned int c, unsigned int l, int _row_length, int _hash_number, int _field_num):
-        len(l),step((double)l*(double)(_field_num-1)/(double)c),row_length(_row_length),hash_number(_hash_number),field_num(_field_num){
+        len(l),step((double)l*(double)(_field_num-1)/(double)c),row_length(_row_length),hash_number(_hash_number),field_num(_field_num)
+        ,insertion_time(0),query_time(0){
         // clock_pos2 = 0;
         // cycle_num2 = 0;
         // 本当にこの実装で大丈夫か？という懸念もある

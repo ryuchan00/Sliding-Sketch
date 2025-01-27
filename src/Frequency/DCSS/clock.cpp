@@ -41,6 +41,12 @@ void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long
     // 速さ1の領域を参照している場合は，Clock_Go(num * step)をcall
     // 速さ1.1の領域を参照している場合は，Clock_Go(num * step * 1.1)をcall
     Clock_Go((double)num * step);
+
+    std::chrono::high_resolution_clock::time_point insertion_start_time;
+    std::chrono::high_resolution_clock::time_point insertion_end_time;
+    std::chrono::microseconds duration;
+    insertion_start_time = std::chrono::high_resolution_clock::now();
+
     for(int i = 0;i < hash_number;++i){
         position = Hash(str, i, length) % row_length + i * row_length;
         // std::cout << "i: " << i << " position: " << position << std::endl;
@@ -52,6 +58,10 @@ void Recent_Counter::CM_Init(const unsigned char* str, int length, unsigned long
             counter[position].count[(cycle_num2 + (position < (int)clock_pos2)) % field_num] += 1;
         }
     }
+
+    insertion_end_time = std::chrono::high_resolution_clock::now();
+    duration = std::chrono::duration_cast<std::chrono::microseconds>(insertion_end_time - insertion_start_time);
+    insertion_time += duration;
 }
 
 void Recent_Counter::CU_Init(const unsigned char* str, int length, unsigned long long int num){
@@ -81,6 +91,10 @@ void Recent_Counter::CU_Init(const unsigned char* str, int length, unsigned long
 }
 
 unsigned int Recent_Counter::Query(const unsigned char* str, int length, bool display_min_pos = false){
+    std::chrono::high_resolution_clock::time_point start_time;
+    std::chrono::high_resolution_clock::time_point end_time;
+    start_time = std::chrono::high_resolution_clock::now();
+
     unsigned int min_num = 0x7fffffff;
     unsigned int prev_min_num = 0x7fffffff;
     int min_pos = 0;
@@ -88,19 +102,23 @@ unsigned int Recent_Counter::Query(const unsigned char* str, int length, bool di
     for(int i = 0;i < hash_number;++i) {
         int pos = Hash(str, i, length) % row_length + i * row_length;
         min_num = min(counter[pos].Total(), min_num);
-        if (min_num < prev_min_num || min_num == prev_min_num) {
-            min_pos = pos;
-        }
-        prev_min_num = min_num;
+        // if (min_num < prev_min_num || min_num == prev_min_num) {
+        //     min_pos = pos;
+        // }
+        // prev_min_num = min_num;
     }
-    if (display_min_pos) {
-        char* clock_pos_str = "clock_pos1";
-        if (min_pos % 2 != 0) {
-            clock_pos_str = "clock_pos2";
+    // if (display_min_pos) {
+    //     char* clock_pos_str = "clock_pos1";
+    //     if (min_pos % 2 != 0) {
+    //         clock_pos_str = "clock_pos2";
 
-        }
-        // std::cout << "min_pos: " << clock_pos_str << " ";
-    }
+    //     }
+    //     // std::cout << "min_pos: " << clock_pos_str << " ";
+    // }
+
+    end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::microseconds duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+    query_time += duration;
 
     return min_num;
 }

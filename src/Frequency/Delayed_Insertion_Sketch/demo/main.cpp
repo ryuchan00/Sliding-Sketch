@@ -26,7 +26,7 @@ unordered_map<Data, int, My_Hash> mp;
 //argv[9]:field
 
 void Read_File(int argc, char* argv[]){
-     int cycle = 50000;
+    int cycle = std::atoi(argv[4]);
     // 所持しているハッシュ関数
     int hash_number = 10;
     double mymemory  = std::atof(argv[2]);
@@ -39,7 +39,7 @@ void Read_File(int argc, char* argv[]){
     int amari = (hash_number * row_length) % cycle;
     std::cout << "amari:" << amari << std::endl;
     
-    int element_count_step = std::atoi(argv[4]);;
+    int element_count_step = std::atoi(argv[5]);;
 
     // if (hash_number * row_length < cycle) {
     //     std::cout << "hash_number: " << hash_number << std::endl;
@@ -65,8 +65,8 @@ void Read_File(int argc, char* argv[]){
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial.txt");
     // std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial2.txt");
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/artificial3.txt");
-    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
-    // std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
+    // std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
@@ -75,11 +75,11 @@ void Read_File(int argc, char* argv[]){
     int underestimation_count = 0;
 
     // while(fread(packet.str, DATA_LEN, 1, file) > 0)
-    for (int i = 0; i < input.size(); i++)
-    {
-        std::memcpy(packet.str, &input[i][0], DATA_LEN);
-    // for (int i = 0; i < input2.size(); i++) {
-    //     std::memcpy(packet.str, &input2[i], DATA_LEN);
+    // for (int i = 0; i < input.size(); i++)
+    // {
+    //     std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    for (int i = 0; i < input2.size(); i++) {
+        std::memcpy(packet.str, &input2[i], DATA_LEN);
         // cout << "INPUT: " << packet.str << endl;
         
 
@@ -117,9 +117,9 @@ void Read_File(int argc, char* argv[]){
 
         CM_ae += abs(CM_sub);
 
-        if(num%cycle ==0){
-            cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        }
+        // if(num%cycle ==0){
+        //     cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        // }
         // cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
         // cout << "input_num: " << input[i][0] << "," << " guess: " << CM_guess << "," << " real: "<< real;
         if (CM_guess > real) {
@@ -151,6 +151,19 @@ void Read_File(int argc, char* argv[]){
 
     cout << "ARE" << "," << num << "," << CM_re / num << endl;
 
+    cout << "Execution insertion time for the loop," << CM_Counter.insertion_time.count() << endl;
+    cout << "Execution query time for the loop," << CM_Counter.query_time.count() << endl;
+    cout << "return_write_time," << CM_Counter.return_write_time.count() << endl;
+    cout << "detect_hash_collision_time," << CM_Counter.detect_hash_collision_time.count() << endl;
+    cout << "insertion_correct_sketch_time," << CM_Counter.insertion_correct_sketch_time.count() << endl;
+    cout << "GetTargetKey_time," << CM_Counter.GetTargetKey_time.count() << endl;
+    cout << "initilize_element_count_time," << CM_Counter.initilize_element_count_time.count() << endl;
+    cout << "increment_time," << CM_Counter.increment_time.count() << endl;
+    cout << "time1," << CM_Counter.time1.count() << endl;
+    cout << "time2," << CM_Counter.time2.count() << endl;
+    cout << "time3," << CM_Counter.time3.count() << endl;
+    cout << "time4," << CM_Counter.time4.count() << endl;
+
     // 現在の時刻を取得
     std::time_t now = std::time(nullptr);
 
@@ -172,6 +185,7 @@ void Read_File(int argc, char* argv[]){
     cout << "element_count_step:" << element_count_step << endl;
     cout << "Overestimation:" << overestimation_count << endl;
     cout << "Underestimation:" << underestimation_count << endl;
+    cout << "Match:" << input_num_max - overestimation_count - underestimation_count << endl;
 
     CM_Counter.DumpHashCount();
 }

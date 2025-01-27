@@ -2,9 +2,9 @@
 
 #ifdef HASH_COLLISION
 
-unsigned int Hash(const unsigned char* str, int num, int length){
-    return 0;
-}
+// unsigned int Hash(const unsigned char* str, int num, int length){
+//     return 0;
+// }
 
 #else
 

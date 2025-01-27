@@ -42,22 +42,43 @@ unsigned int Recent_Counter::DelayedInsertion_CM_Query(const unsigned char* str,
   correction_count = element_count_2_.at(GetTargetKey(str));
 #endif  // NOT_USE_CORRECTION_SKETCH
 
+  std::chrono::high_resolution_clock::time_point start_time;
+  std::chrono::high_resolution_clock::time_point end_time;
+  start_time = std::chrono::high_resolution_clock::now();
+
   for (int i = 0; i < hash_number; i++) {
 #ifdef ONLY_INPUT_MODE
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].Total() + correction_count, min_num);
 #else
     unsigned int position = Hash(str, i, length) % row_length + i * row_length;
-    //int new_filed = (cycle_num + (position < clock_pos)) % field_num;
     int new_filed  = 0;
 
     min_num = min(counter[Hash(str, i, length) % row_length + i * row_length].Total() + correction_count, min_num);
 #endif  // ONLY_INPUT_MODE
   }
+
+  end_time = std::chrono::high_resolution_clock::now();
+  std::chrono::microseconds duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+  query_time += duration;
+
   return min_num;
 }
+using std::micro;
 
 void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int length, unsigned long long int num) {
+  std::chrono::high_resolution_clock::time_point start_time;
+  std::chrono::high_resolution_clock::time_point end_time;
+  std::chrono::microseconds duration;
+  // std::chrono::duration<int, micro> duration;
+
+  start_time = std::chrono::high_resolution_clock::now();
+
   Initilize_ElementCount(length, num * step, num);
+
+  end_time = std::chrono::high_resolution_clock::now();
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+  insertion_time += duration;
+
   Clock_Go(num * step);
 
 #ifdef NOT_USE_CORRECTION_SKETCH
@@ -68,29 +89,78 @@ void Recent_Counter::DelayedInsertion_CM_Init(const unsigned char* str, int leng
     counter[position].count[0] += 1;
   }
 #else
-  if (element_count_2_.count(GetTargetKey(str)) > 0 ) {
-    element_count_2_.at(GetTargetKey(str)) += 1;
-    // std::cout << "count:" << element_count_2_.at(GetTargetKey(str)) << std::endl;
+
+  std::chrono::system_clock::time_point s1,s2,s3,s4;
+  std::chrono::system_clock::time_point e1,e2,e3,e4;
+
+  packet_str key = GetTargetKey(str);
+
+  start_time = std::chrono::system_clock::now();
+
+  s1 = std::chrono::system_clock::now();
+  s4 = std::chrono::system_clock::now();
+  bool cond = element_count_2_.count(key) > 0;
+  e4 = std::chrono::system_clock::now();
+  time4 += std::chrono::duration_cast<std::chrono::microseconds>(e4 - s4);
+  if (cond) {
+    s2 = std::chrono::system_clock::now();
+
+    element_count_2_.at(key) += 1;
+
+    e2 = std::chrono::system_clock::now();
+    std::chrono::microseconds duration2 = std::chrono::duration_cast<std::chrono::microseconds>(e2 - s2);
+    time2 += duration2; 
   } else {
-    element_count_2_.insert(std::make_pair(GetTargetKey(str), 1));
+    // e1 = std::chrono::high_resolution_clock::now();
+    // time1 += std::chrono::duration_cast<std::chrono::microseconds>(e1 - s1);
+
+    s3 = std::chrono::system_clock::now();
+
+    element_count_2_.insert(std::make_pair(key, 1));
+
+    e3 = std::chrono::system_clock::now();
+    time3 += std::chrono::duration_cast<std::chrono::microseconds>(e3 - s3);
   }
+  e1 = std::chrono::system_clock::now();
+  time1 += std::chrono::duration_cast<std::chrono::microseconds>(e1 - s1);
+
+  end_time = std::chrono::system_clock::now();
+  // duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+  // insertion_time += duration;
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+  increment_time = increment_time + std::chrono::duration_cast<std::chrono::microseconds>(e4 - s4)
+  + std::chrono::duration_cast<std::chrono::microseconds>(e2 - s2) + std::chrono::duration_cast<std::chrono::microseconds>(e3 - s3);
+  insertion_time = insertion_time + std::chrono::duration_cast<std::chrono::microseconds>(e4 - s4)
+  + std::chrono::duration_cast<std::chrono::microseconds>(e2 - s2) + std::chrono::duration_cast<std::chrono::microseconds>(e3 - s3);
 #endif  // NOT_USE_CORRECTION_SKETCH
+
+  // start_time = std::chrono::high_resolution_clock::now();
 
   for (int i = 0; i < hash_number; i++) {
     int position = Hash(str, i, length) % row_length;
-    if (hash_count[i].count(position) > 0) {
-      hash_count[i][position] += 1;
-    } else {
-      hash_count[i].insert(std::make_pair(position, 1));
-    }
+    // if (hash_count[i].count(position) > 0) {
+    //   hash_count[i][position] += 1;
+    // } else {
+    //   hash_count[i].insert(std::make_pair(position, 1));
+    // }
   }
+
+  // end_time = std::chrono::high_resolution_clock::now();
+  // duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+  // insertion_time += duration;
 }
 
 void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int num, unsigned long long int time) {
+  std::chrono::high_resolution_clock::time_point return_write_start_time,insertion_correct_sketch_start_time,detect_hash_collision_start_time,initilize_element_count_start_time;
+  std::chrono::high_resolution_clock::time_point return_write_end_time,insertion_correct_sketch_end_time,detect_hash_collision_end_time,initilize_element_count_end_time;
+  std::chrono::microseconds duration;
+
   int position;
   // int frequency_confirmations[row_length] = {0};
-  std::vector<int> frequency_confirmations(row_length, 0);
+  // std::vector<int> frequency_confirmations(row_length, 0);
   // int time = num / step;
+
+  // initilize_element_count_start_time = std::chrono::high_resolution_clock::now();
 
   // for (; last_time2 < num; ++last_time2) {
 #ifdef NOT_USE_CORRECTION_SKETCH
@@ -98,16 +168,17 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 #else
     int new_counter = 0;
     int old_counter = 0;
+    // insertion_correct_sketch_start_time = std::chrono::high_resolution_clock::now();
 
-    // if (last_time2 != 0 && last_time2 % element_count_step_ == 0) {
     if (time != 0 && time % element_count_step_ == 0) {
+
       for (int i = 0; i < hash_number; i++) {
-        // todo vectorを試してみる
-        // frequency_confirmations[row_length] = {0};
         frequency_confirmations.assign(row_length, 0);
 
-        // std::cout << "e c 2 size: " << element_count_2_.size() << std::endl;
         int count = 0;
+
+        // detect_hash_collision_start_time = std::chrono::high_resolution_clock::now();
+
         for (const auto& [key, value] : element_count_2_) {
           // キャッシュの衝突を検知する
           unsigned char a[DATA_LEN];
@@ -115,46 +186,33 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
             a[j] = key[j];
           }
           position = Hash(a, i, length) % row_length;
-
-          // if (frequency_confirmations[position] > 0) {
-          //   std::cout << "Collision detected" << std::endl;
-          //   std::cout << "key: " << a << std::endl;
-          //   std::cout << "position: " << position << std::endl;
-          //   count++;
-          // } else {
-          //   std::cout << "Collision not detected" << std::endl;
-          // }
-
           frequency_confirmations[position] = max(frequency_confirmations[position], value);
         }
 
+        // detect_hash_collision_end_time = std::chrono::high_resolution_clock::now();
+        // duration = std::chrono::duration_cast<std::chrono::microseconds>(detect_hash_collision_end_time - detect_hash_collision_start_time);
+        // detect_hash_collision_time += duration;
+
+        // return_write_start_time = std::chrono::high_resolution_clock::now();
+
         for (int j = 0; j < row_length; j++) {
-            int counter_position = j + i * row_length;
+          int counter_position = j + i * row_length;
 
           if (frequency_confirmations[j] > 0) {
 #ifdef ONLY_INPUT_MODE
             counter[counter_position].count[0] = counter[counter_position].count[0] + frequency_confirmations[j];
 #else
-            // int new_field = (cycle_num + (counter_position < clock_pos)) % field_num;
             int new_field = 0;
-            // int old_field = (cycle_num + (counter_position < clock_pos) + 1) % field_num;
             int old_field = 1;
 
             // oldとnewにfrequency_confirmations[j]を分割する
-            // std::cout << "num: " << num / step << std::endl;
-            // std::cout << "counter[counter_position].recently_reset_time + element_count_step_: " << counter[counter_position].recently_reset_time + element_count_step_ << std::endl;
             int real_time = num / step;
             if (real_time >= counter[counter_position].recently_reset_time + element_count_step_) {
               counter[counter_position].count[new_field] = counter[counter_position].count[new_field] + frequency_confirmations[j];
             } else {
-              // new_counter = 0;
-              // new_counter = frequency_confirmations[j];
               double rate = static_cast<double>(real_time - counter[counter_position].recently_reset_time) / static_cast<double>(element_count_step_);
-              // std::cout << "real_time: "  <<  real_time << " reset_time:" << counter[counter_position].recently_reset_time << " element_count_step_:" << element_count_step_ << std::endl;
-              // std::cout << "rate: "  <<  rate << std::endl;
               new_counter = frequency_confirmations[j] * rate;
 
-              // new_counter = frequency_confirmations[j] * 1.0;
               old_counter = frequency_confirmations[j] - new_counter;
               counter[counter_position].count[old_field] = counter[counter_position].count[old_field] + old_counter;
               counter[counter_position].count[new_field] = counter[counter_position].count[new_field] + new_counter;
@@ -162,21 +220,43 @@ void Recent_Counter::Initilize_ElementCount(int length, unsigned long long int n
 #endif // ONLY_INPUT_MODE
           }
         }
+        // return_write_end_time = std::chrono::high_resolution_clock::now();
+        // duration = std::chrono::duration_cast<std::chrono::microseconds>(return_write_end_time - return_write_start_time);
+        // return_write_time += duration;
       }
       element_count_2_.clear();
+
+      // insertion_correct_sketch_end_time = std::chrono::high_resolution_clock::now();
+      // duration = std::chrono::duration_cast<std::chrono::microseconds>(insertion_correct_sketch_end_time - insertion_correct_sketch_start_time);
+      // insertion_correct_sketch_time += duration;
     }
+
+    // initilize_element_count_end_time = std::chrono::high_resolution_clock::now();
+    // duration = std::chrono::duration_cast<std::chrono::microseconds>(initilize_element_count_end_time - initilize_element_count_start_time);
+    // initilize_element_count_time += duration;
+
 #endif  // NOT_USE_CORRECTION_SKETCH
   // }
 }
 
 // todo: DATA_LEN=8に依存しているコードなので，DETA_LENに合わせてできるようにする
 packet_str Recent_Counter::GetTargetKey(const unsigned char* str) {
+  // std::chrono::high_resolution_clock::time_point start_time;
+  // std::chrono::high_resolution_clock::time_point end_time;
+  // std::chrono::microseconds duration;
+  // start_time = std::chrono::high_resolution_clock::now();
+
   using packet = std::array<unsigned char, DATA_LEN>;
   packet result{};
   for (std::size_t i = 0; i < DATA_LEN; ++i) {
       result[i] = str[i];
   }
   packet_str p = result;
+
+  // end_time = std::chrono::high_resolution_clock::now();
+  // duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+  // GetTargetKey_time += duration;
+
   return result;
 }
 

@@ -25,7 +25,7 @@ unordered_map<Data, int, My_Hash> mp;
 //argv[9]:field
 
 void Read_File(int argc, char* argv[]){
-    int cycle = 50000;
+    int cycle = std::atoi(argv[4]);
     // int cycle = 8;
     // 所持しているハッシュ関数
     //int hash_number = 13;
@@ -66,19 +66,19 @@ void Read_File(int argc, char* argv[]){
     // FILE* file = fopen("../../../../data/sx-stackoverflow.txt","rb");
     Data packet;
 
-    std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
-    // std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
+    // std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
+    std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
     //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
 
     // while(fread(packet.str, DATA_LEN, 1, file) > 0)
-    for (int i = 0; i < input.size(); i++)
-    {
-        std::memcpy(packet.str, &input[i][0], DATA_LEN);
-    // for (int i = 0; i < input2.size(); i++) {
-    //     std::memcpy(packet.str, &input2[i], DATA_LEN);
+    // for (int i = 0; i < input.size(); i++)
+    // {
+    //     std::memcpy(packet.str, &input[i][0], DATA_LEN);
+    for (int i = 0; i < input2.size(); i++) {
+        std::memcpy(packet.str, &input2[i], DATA_LEN);
         // cout << "INPUT: " << packet.str << endl;
 
         if(num > input_num_max){
@@ -162,6 +162,11 @@ void Read_File(int argc, char* argv[]){
 
     cout << "ARE" << "," << num << "," << CM_re / num << endl;
 
+    cout << "Execution insertion time for the loop: " << CM_Counter.insertion_time.count() << " μs" << endl;
+    cout << "Insertion Time," << CM_Counter.insertion_time.count() << endl;
+    cout << "Query Time," << CM_Counter.query_time.count() << endl;
+
+
     // パラメータダンプ
     cout << "DATA_LEN:" << DATA_LEN << endl;
     cout << "input_num_max:" << input_num_max << endl;
@@ -172,7 +177,7 @@ void Read_File(int argc, char* argv[]){
 
     cout << "over_estimation_count: " << overestimation_count << endl;
     cout << "under_estimation_count: " << under_estimation_count << endl;
-
+    cout << "Match:" << input_num_max - overestimation_count - under_estimation_count << endl;
 }
 
 int main(int argc, char* argv[]){
