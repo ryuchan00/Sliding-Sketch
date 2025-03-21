@@ -39,8 +39,8 @@ void Read_File(int argc, char* argv[]){
     int amari = (hash_number * row_length) % cycle;
     std::cout << "amari:" << amari << std::endl;
     
-    int element_count_step = std::atoi(argv[5]);;
-
+    int element_count_step = std::atoi(argv[5]);
+    row_length = ((mymemory * 1024 * 1024) - (DATA_LEN * element_count_step + 4 * element_count_step)) /hash_number / (4 * field_num);
     // if (hash_number * row_length < cycle) {
     //     std::cout << "hash_number: " << hash_number << std::endl;
     //     std::cout << "row_length: " << row_length << std::endl;
@@ -132,9 +132,9 @@ void Read_File(int argc, char* argv[]){
             // cout << endl;
         }
 
-        // if(num%input_num_max ==0){
-        //     cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
-        // }
+        if(num%input_num_max ==0){
+            cout << "Sl-CM" << "," << num << "," << CM_re / num << endl;
+        }
 
         // }
 

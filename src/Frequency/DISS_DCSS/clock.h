@@ -85,7 +85,7 @@ public:
             int ret = 0;
             for(int i = 0;i < field_num;++i){
                 ret += count[i];
-            }
+            } 
             return ret;
         }
     };

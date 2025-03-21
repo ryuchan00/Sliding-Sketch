@@ -26,27 +26,15 @@ unordered_map<Data, int, My_Hash> mp;
 
 void Read_File(int argc, char* argv[]){
     int cycle = std::atoi(argv[4]);
-    // int cycle = 8;
     // 所持しているハッシュ関数
-    //int hash_number = 13;
     int hash_number = 10;
-    // int hash_number = 2;    // テスト用
-    // double mymemory  = 1;
-    // double mymemory  = 1;
     double mymemory  = std::atof(argv[2]);
-    // int input_num_max = 500000;
     int input_num_max = std::atoi(argv[3]);
-    // int input_num_max = 80;
     // バケットの数(today or yesterday)
     int field_num = 2;
     // 衝突の関係する
     int row_length = (mymemory * 1024 * 1024) / hash_number / (4 * field_num);
-    // int row_length = 4;    // テスト用
-    // hash_number * row_lengthはスケッチ全体のサイズ
-    int amari = (hash_number * row_length) % cycle;
-    std::cout << "amari:" << amari << std::endl;
 
-    // Recent_Counter CM_Counter(cycle, hash_number * row_length - amari, row_length - amari / hash_number, hash_number, field_num);
     Recent_Counter CM_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     // Recent_Counter CU_Counter(cycle, hash_number * row_length, row_length, hash_number, field_num);
     // Recent_Counter CO_Counter(2*cycle/3, hash_number * row_length, row_length, hash_number, field_num);
@@ -62,13 +50,9 @@ void Read_File(int argc, char* argv[]){
     int under_estimation_count = 0;
 
     FILE* file = fopen("../../../../data/formatted00.dat","rb");
-    // FILE* file = fopen("../../../../data/web_page2.dat","rb");
-    // FILE* file = fopen("../../../../data/sx-stackoverflow.txt","rb");
     Data packet;
 
-    // std::vector<std::vector<int>> input = Csv::ReadCsv(argv[1]);
     std::vector<int> input2 = Ssv2::ReadSsv(argv[1]);
-    //std::vector<std::vector<int>> input = Csv::ReadCsv("../../../../data/sx-stackoverflow.txt");
 
     cout <<"Sliding Sketch,Arrivals,ARE"<<endl;
     // cout << "num,diff,guess,real " << endl;
